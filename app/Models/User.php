@@ -18,7 +18,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'firstname',
+        'lastname',
+        'image',
+        'telephone',
+        'addresse',
+        'category_users_id',
         'email',
         'password',
     ];
@@ -41,4 +46,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function category(){
+        return $this->belongsTo(CategoryUser::class,'category_users_id','id');
+    }
 }
