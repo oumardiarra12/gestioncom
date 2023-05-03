@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
-            $table->enum("stats_purchase_order",["in progress","valid","dismiss"])->default("in progress");
+            $table->enum("stats_purchase_order",["in progress","receipt","biased receipt","cancel"])->default("in progress");
             $table->string("num_purchase_order");
             $table->string("description_purchase_order")->nullable();
             $table->float("total_purchase_order");

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('receptions', function (Blueprint $table) {
             $table->id();
-            $table->enum("status_reception",["in progress","valid","biased"])->default("in progress");
+            $table->enum("status_reception",["non invoice","to invoice"])->default("non invoice");
             $table->string("num_reception");
             $table->string("description_reception")->nullable();
             $table->foreignId("purchase_orders_id")->nullable()->constrained('purchase_orders');

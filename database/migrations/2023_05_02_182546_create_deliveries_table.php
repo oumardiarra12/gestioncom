@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
             $table->string("num_deliveries");
-            $table->enum("status_deliveries",["in progress","valid","dismiss"])->default("in progress");
+            $table->enum("status_deliveries",["no invoice","to invoice"])->default("no invoice");
             $table->string("description_deliveries")->nullable();
             $table->timestamps();
             $table->foreignId("customer_orders_id")->constrained('customer_orders');

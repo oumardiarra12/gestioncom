@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('customer_orders', function (Blueprint $table) {
             $table->id();
             $table->string("num_customer_order");
-            $table->enum("status_customer_order",["in progress","valid","dismiss"])->default("in progress");
+            $table->enum("status_customer_order",["in progress","delivery","biased delivery","cancel"])->default("in progress");
             $table->string("description_customer_order")->nullable();
             $table->timestamps();
             $table->foreignId("customers_id")->constrained('customers');
