@@ -3,7 +3,7 @@
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
                 <li class="active">
-                    <a href="index.html"><img src="assets/img/icons/dashboard.svg" alt="img"><span> Dashboard</span>
+                    <a href="{{route('home.index')}}"><img src="assets/img/icons/dashboard.svg" alt="img"><span> Dashboard</span>
                     </a>
                 </li>
                 <li class="submenu">
@@ -248,8 +248,8 @@
                             Parametres</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li><a href="generalsettings.html">General Settings</a></li>
-                        <li><a href="emailsettings.html">Email Settings</a></li>
-                        <li><a href="paymentsettings.html">Payment Settings</a></li>
+                        <li><a href="emailsettings.html">Nouveau Utilisateur</a></li>
+                        <li><a href="{{route('utilisateur.index')}}">Liste Utilisateur</a></li>
                         <li><a href="currencysettings.html">Currency Settings</a></li>
                         <li><a href="grouppermissions.html">Group Permissions</a></li>
                         <li><a href="taxrates.html">Tax Rates</a></li>

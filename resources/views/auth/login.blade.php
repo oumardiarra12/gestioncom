@@ -27,6 +27,11 @@
                             <img src="assets/img/icons/mail.svg" alt="img">
                         </div>
                     </div>
+                    <div>
+                        @error('email')
+                            <div class="text-danger mb-3">{{$message}}</div>
+                        @enderror
+                    </div>
                     <div class="form-login">
                         <label>Mot de passe</label>
                         <div class="pass-group">
