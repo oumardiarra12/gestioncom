@@ -3,6 +3,7 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateProfileRequest extends FormRequest
 {
@@ -28,7 +29,7 @@ class UpdateProfileRequest extends FormRequest
             'telephone'=>'required',
             'addresse'=>'required',
             'password'=>'nullable|confirmed',
-            'email'=>'required|unique:users,email,'.$this->id,
+            'email'=>'required|unique:users,email,'.Auth::user()->id,
         ];
     }
 }

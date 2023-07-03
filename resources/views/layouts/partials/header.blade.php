@@ -1,14 +1,40 @@
+@php
+    $company = DB::table("companies")->first();
+@endphp
 <div class="header">
 
     <div class="header-left active">
-        <a href="index.html" class="logo">
-            <img src="assets/img/logo.png" alt="">
+        @if (Auth::user()->CategoryUser->name_category_users==='admin')
+        <a href="{{route('home.index')}}" class="logo">
+            <img src="{{ Storage::url('/logosociete/'.$company->company_logo) }}" style="width: 60px; height:60px; border-radius: 50%;" alt="logo">
         </a>
-        <a href="index.html" class="logo-small">
+        <a href="{{route('home.index')}}" class="logo-small">
             <img src="assets/img/logo-small.png" alt="">
         </a>
         <a id="toggle_btn" href="javascript:void(0);">
         </a>
+        @endif
+        @if (Auth::user()->CategoryUser->name_category_users==='gerant')
+        <a href="{{route('home.homegerant')}}" class="logo">
+            <img src="{{ Storage::url('/logosociete/'.$company->company_logo) }}" style="width: 60px; height:60px; border-radius: 50%;" alt="logo">
+        </a>
+        <a href="{{route('home.homegerant')}}" class="logo-small">
+            <img src="assets/img/logo-small.png" alt="">
+        </a>
+        <a id="toggle_btn" href="javascript:void(0);">
+        </a>
+        @endif
+        @if (Auth::user()->CategoryUser->name_category_users==='gestionnaire')
+        <a href="{{route('home.user')}}" class="logo">
+            <img src="{{ Storage::url('/logosociete/'.$company->company_logo) }}" style="width: 60px; height:60px; border-radius: 50%;" alt="logo">
+        </a>
+        <a href="{{route('home.user')}}" class="logo-small">
+            <img src="assets/img/logo-small.png" alt="">
+        </a>
+        <a id="toggle_btn" href="javascript:void(0);">
+        </a>
+        @endif
+
     </div>
 
     <a id="mobile_btn" class="mobile_btn" href="#sidebar">
@@ -20,7 +46,7 @@
     </a>
 
     <ul class="nav user-menu">
-        <li class="nav-item dropdown">
+        {{-- <li class="nav-item dropdown">
             <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                 <img src="assets/img/icons/notification-bing.svg" alt="img"> <span
                     class="badge rounded-pill">4</span>
@@ -112,17 +138,17 @@
                     <a href="activities.html">View all Notifications</a>
                 </div>
             </div>
-        </li>
+        </li> --}}
 
         <li class="nav-item dropdown has-arrow main-drop">
             <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-                <span class="user-img"><img src="users/{{Auth::user()->image}}" alt="">
+                <span class="user-img"><img src="{{ asset('/storage/users/'.Auth::user()->image) }}" alt="image user">
                     <span class="status online"></span></span>
             </a>
             <div class="dropdown-menu menu-drop-user">
                 <div class="profilename">
                     <div class="profileset">
-                        <span class="user-img"><img src="users/{{Auth::user()->image}}" alt="">
+                        <span class="user-img"><img src="{{ asset('/storage/users/'.Auth::user()->image) }}" alt="image user">
                             <span class="status online"></span></span>
                         <div class="profilesets">
                             <h6>{{Auth::user()->firstname}} {{Auth::user()->firstname}}</h6>
@@ -132,11 +158,13 @@
                     <hr class="m-0">
                     <a class="dropdown-item" href="{{route('profile')}}"> <i class="me-2" data-feather="user"></i> Mon
                         Profile</a>
-                    <a class="dropdown-item" href="generalsettings.html"><i class="me-2"
-                            data-feather="settings"></i>Settings</a>
+                        @if(Auth::user()->CategoryUser->name_category_users==='admin')
+                    <a class="dropdown-item" href="{{route('utilisateur.index')}}"><i class="me-2"
+                            data-feather="settings"></i>Parametres</a>
+                            @endif
                     <hr class="m-0">
-                    <a class="dropdown-item logout pb-0" href="{{ route('login') }}"><img src="assets/img/icons/log-out.svg"
-                            class="me-2" alt="img"> <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    <a class="dropdown-item logout pb-0" href="{{ route('login.logout') }}"><img src="assets/img/icons/log-out.svg"
+                            class="me-2" alt="img"> <form  action="{{ route('login.logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>Logout</a>
 

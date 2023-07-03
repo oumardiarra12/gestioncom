@@ -18,8 +18,10 @@ class ExpenseSeeder extends Seeder
         for ($i=1; $i <= 10 ; $i++) {
           Expense::create([
                'reason' => $faker->name,
+            //    'number_expense' => $faker->randomDigitNotZero,
                'amount' => $faker->randomDigitNotZero,
-               'expense_types_id'=>$i
+               'expense_types_id'=>$i,
+               "description_expense"=>$faker->text
            ]);
        }
     }

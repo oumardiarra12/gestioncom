@@ -21,7 +21,8 @@ class CustomerPaymentSeeder extends Seeder
                'amount_to_pay' => $faker->randomDigitNotZero,
                'reste'=>0,
                'description_customer_payment'=>$faker->text,
-               'customer_invoices_id'=>$i
+               'customer_invoices_id'=>$i,
+               'users_id'=>1
            ]);
        }
     }

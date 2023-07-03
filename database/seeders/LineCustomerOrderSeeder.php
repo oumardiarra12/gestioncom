@@ -21,7 +21,8 @@ class LineCustomerOrderSeeder extends Seeder
                'price_line_customer_order' => $faker->randomDigitNotZero,
                "subtotal_line_customer_order"=>$faker->randomDigitNotZero,
                "products_id"=>$i,
-               "customer_orders_id"=>$i
+               "customer_orders_id"=>$i,
+               "qty_line_delivery"=>5
            ]);
        }
     }

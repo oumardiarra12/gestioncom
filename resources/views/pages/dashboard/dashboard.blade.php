@@ -7,7 +7,7 @@
                     <span><img src="assets/img/icons/dash1.svg" alt="img"></span>
                 </div>
                 <div class="dash-widgetcontent">
-                    <h5><span class="counters" data-count="307144.00">307.144 FCFA</span></h5>
+                    <h5><span class="counters" data-count="{{$purchaseinvoice_sum}}">{{$purchaseinvoice_sum}}</span></h5>
                     <h6>Total Achats Impayer</h6>
                 </div>
             </div>
@@ -18,7 +18,7 @@
                     <span><img src="assets/img/icons/dash2.svg" alt="img"></span>
                 </div>
                 <div class="dash-widgetcontent">
-                    <h5><span class="counters" data-count="4385.00">4.385 FCFA</span></h5>
+                    <h5><span class="counters" data-count="{{$customerinvoice_sum}}">{{$customerinvoice_sum}}</span></h5>
                     <h6>Total Ventes Impayer</h6>
                 </div>
             </div>
@@ -29,8 +29,8 @@
                     <span><img src="assets/img/icons/dash3.svg" alt="img"></span>
                 </div>
                 <div class="dash-widgetcontent">
-                    <h5><span class="counters" data-count="385656">385.656 FCFA</span></h5>
-                    <h6>Montant de Vente</h6>
+                    <h5><span class="counters" data-count="{{$totalpurchaseinvoice}}">{{$totalpurchaseinvoice}}</span></h5>
+                    <h6>Montant d'Achat</h6>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
                     <span><img src="assets/img/icons/dash4.svg" alt="img"></span>
                 </div>
                 <div class="dash-widgetcontent">
-                    <h5><span class="counters" data-count="40000.00">400</span></h5>
+                    <h5><span class="counters" data-count="{{$totalcustomerinvoice}}">{{$totalcustomerinvoice}}</span></h5>
                     <h6>Montant  de Vente</h6>
                 </div>
             </div>
@@ -48,7 +48,7 @@
         <div class="col-lg-3 col-sm-6 col-12 d-flex">
             <div class="dash-count">
                 <div class="dash-counts">
-                    <h4>100</h4>
+                    <h4>{{$customercount}}</h4>
                     <h5>Clients</h5>
                 </div>
                 <div class="dash-imgs">
@@ -59,7 +59,7 @@
         <div class="col-lg-3 col-sm-6 col-12 d-flex">
             <div class="dash-count das1">
                 <div class="dash-counts">
-                    <h4>100</h4>
+                    <h4>{{$supplycount}}</h4>
                     <h5>Fournisseurs</h5>
                 </div>
                 <div class="dash-imgs">
@@ -70,7 +70,7 @@
         <div class="col-lg-3 col-sm-6 col-12 d-flex">
             <div class="dash-count das2">
                 <div class="dash-counts">
-                    <h4>100</h4>
+                    <h4>{{$purchaseInvoicecount}}</h4>
                     <h5>Facture Achat</h5>
                 </div>
                 <div class="dash-imgs">
@@ -81,7 +81,7 @@
         <div class="col-lg-3 col-sm-6 col-12 d-flex">
             <div class="dash-count das3">
                 <div class="dash-counts">
-                    <h4>105</h4>
+                    <h4>{{$customerInvoicecount}}</h4>
                     <h5>Facture Vente</h5>
                 </div>
                 <div class="dash-imgs">
@@ -96,7 +96,7 @@
             <div class="card flex-fill">
                 <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0">Achats & Ventes</h5>
-                    <div class="graph-sets">
+                    {{-- <div class="graph-sets">
                         <ul>
                             <li>
                                 <span>Ventes</span>
@@ -122,10 +122,10 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="card-body">
-                    <div id="sales_charts"></div>
+                    <div id="s-col"></div>
                 </div>
             </div>
         </div>
@@ -140,10 +140,10 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li>
-                                <a href="productlist.html" class="dropdown-item">Liste Produit</a>
+                                <a href="{{route('produits.index')}}" class="dropdown-item">Liste Produit</a>
                             </li>
                             <li>
-                                <a href="addproduct.html" class="dropdown-item">Nouveau Produit</a>
+                                <a href="{{route('produits.createproduct')}}" class="dropdown-item">Nouveau Produit</a>
                             </li>
                         </ul>
                     </div>
@@ -159,46 +159,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($products as $product)
                                 <tr>
-                                    <td>1</td>
+                                    <td>{{$product->id}}</td>
                                     <td class="productimgname">
-                                        <a href="productlist.html" class="product-img">
-                                            <img src="assets/img/product/product22.jpg" alt="product">
+                                        <a href="{{route('produits.index')}}" class="product-img">
+                                            <img src="{{ asset('/storage/imageproduits/'.$product->image_product) }}" alt="product">
                                         </a>
-                                        <a href="productlist.html">Apple Earpods</a>
+                                        <a href="{{route('produits.index')}}">{{$product->name_product}}</a>
                                     </td>
-                                    <td>891 FCFA</td>
+                                    <td>{{$product->price_sale}}</td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td class="productimgname">
-                                        <a href="productlist.html" class="product-img">
-                                            <img src="assets/img/product/product23.jpg" alt="product">
-                                        </a>
-                                        <a href="productlist.html">iPhone 11</a>
-                                    </td>
-                                    <td>668 FCFA</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td class="productimgname">
-                                        <a href="productlist.html" class="product-img">
-                                            <img src="assets/img/product/product24.jpg" alt="product">
-                                        </a>
-                                        <a href="productlist.html">samsung</a>
-                                    </td>
-                                    <td>522 FCFA</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td class="productimgname">
-                                        <a href="productlist.html" class="product-img">
-                                            <img src="assets/img/product/product6.jpg" alt="product">
-                                        </a>
-                                        <a href="productlist.html">Macbook Pro</a>
-                                    </td>
-                                    <td>291 FCFA</td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -279,4 +251,58 @@
             </div>
         </div>
     </div> --}}
+
 @endsection
+@section('script')
+    <script type="text/javascript">
+     var sCol = {
+            chart: { height: 350, type: "bar", toolbar: { show: false } },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: "55%",
+                    endingShape: "rounded",
+                },
+            },
+            dataLabels: { enabled: false },
+            stroke: { show: true, width: 2, colors: ["transparent"] },
+            series: [
+                {
+                    name: "Achat",
+                    data:{!! json_encode($datapurchase) !!},
+                },
+                {
+                    name: "Vente",
+                    data: {!! json_encode($datacustomer) !!},
+                },
+            ],
+            xaxis: {
+                categories: [
+                    "Fev",
+                    "Mar",
+                    "Avril",
+                    "Mai",
+                    "Juin",
+                    "Juiel",
+                    "Aout",
+                    "Sep",
+                    "Oct",
+                ],
+            },
+            yaxis: { title: { text: "FCFA (cent)" } },
+            fill: { opacity: 1 },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return "FCFA " + val + " cent";
+                    },
+                },
+            },
+        };
+        var chart = new ApexCharts(document.querySelector("#s-col"), sCol);
+        chart.render();
+    </script>
+@endsection
+
+
+

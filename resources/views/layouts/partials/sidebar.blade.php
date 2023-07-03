@@ -1,80 +1,181 @@
+@php
+    $segment1 = request()->segment(1);
+    $segment2 = request()->segment(2);
+@endphp
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
-                <li class="active">
-                    <a href="{{route('home.index')}}"><img src="assets/img/icons/dashboard.svg" alt="img"><span> Dashboard</span>
-                    </a>
+                <li
+                    class=" {{ \Request::route()->getName() == 'home.index' || \Request::route()->getName() == 'home.homegerant' || \Request::route()->getName() == 'home.user' ? 'active' : ' ' }}">
+                    @if(Auth::user()->CategoryUser->name_category_users==='admin')
+                        <a href="{{ route('home.index') }}"><img src="assets/img/icons/dashboard.svg" alt="img"><span>
+                                Dashboard</span>
+                        </a>
+                    @endif
+                    @if(Auth::user()->CategoryUser->name_category_users==='gerant')
+                        <a href="{{ route('home.homegerant') }}"><img src="assets/img/icons/dashboard.svg"
+                                alt="img"><span> Dashboard</span>
+                        </a>
+                    @endif
+                    @if(Auth::user()->CategoryUser->name_category_users==='gestionnaire')
+                        <a href="{{ route('home.user') }}"><img src="assets/img/icons/dashboard.svg" alt="img"><span>
+                                Dashboard</span>
+                        </a>
+                    @endif
                 </li>
+                @if(Auth::user()->CategoryUser->name_category_users==='admin' || Auth::user()->CategoryUser->name_category_users==='gerant' )
                 <li class="submenu">
-                    <a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span>
-                           Gestion Produit</span> <span class="menu-arrow"></span></a>
+                    <a class=" {{ $segment1 == 'categories' || $segment1 == 'unites' || $segment1 == 'produits' ? 'active' : ' ' }}"
+                        href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span>
+                            Gestion Produit</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="productlist.html">Liste de Produit</a></li>
-                        <li><a href="addproduct.html">Nouveau Produit</a></li>
-                        <li><a href="categorylist.html">Liste Categorie</a></li>
-                        <li><a href="addcategory.html">Nouveau Categorie</a></li>
-                        <li><a href="subcategorylist.html">Liste Unite</a></li>
-                        <li><a href="subaddcategory.html">Nouveau Unite</a></li>
-                        <li><a href="importproduct.html">Import Produits</a></li>
-                        <li><a href="barcode.html">Imprimer code Barre</a></li>
+                        <li><a href="{{ route('produits.index') }}"
+                                class="{{ \Request::route()->getName() == 'produits.index' || \Request::route()->getName() == 'produits.show' || \Request::route()->getName() == 'produits.edit' ? 'active' : ' ' }}">Liste
+                                de Produit</a></li>
+                        <li><a href="{{ route('produits.createproduct') }}"
+                                class="{{ \Request::route()->getName() == 'produits.createproduct' ? 'active' : ' ' }}">Nouveau
+                                Produit</a></li>
+                        <li><a href="{{ route('produits.importproduit') }}"
+                                class="{{ \Request::route()->getName() == 'produits.importproduit' ? 'active' : ' ' }}">Import
+                                Produits</a></li>
+                        <li><a href="{{ route('produits.listecodebarre') }}"
+                                class="{{ \Request::route()->getName() == 'produits.listecodebarre' ? 'active' : ' ' }}">Imprimer
+                                code Barre</a></li>
+                        <li><a href="{{ route('categories.index') }}"
+                                class="{{ \Request::route()->getName() == 'categories.index' || \Request::route()->getName() == 'categories.create' || \Request::route()->getName() == 'categories.show' || \Request::route()->getName() == 'categories.edit' ? 'active' : ' ' }}">Categorie</a>
+                        </li>
+                        <li><a href="{{ route('unites.index') }}"
+                                class="{{ \Request::route()->getName() == 'unites.index' || \Request::route()->getName() == 'unites.create' || \Request::route()->getName() == 'unites.show' || \Request::route()->getName() == 'unites.edit' ? 'active' : ' ' }}">Unite</a>
+                        </li>
                     </ul>
                 </li>
+                @endif
+                @if(Auth::user()->CategoryUser->name_category_users==='admin' || Auth::user()->CategoryUser->name_category_users==='gerant' || Auth::user()->CategoryUser->name_category_users==='gestionnaire' )
                 <li class="submenu">
-                    <a href="javascript:void(0);"><img src="assets/img/icons/users1.svg" alt="img"><span>
+                    <a class="{{ $segment1 == 'clients' ? 'active' : ' ' }}" href="javascript:void(0);"><img
+                            src="assets/img/icons/users1.svg" alt="img"><span>
                             Gestion Client</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="saleslist.html">Liste Client</a></li>
-                        <li><a href="pos.html">Nouveau Client</a></li>
+                        <li><a href="{{ route('clients.index') }}"
+                                class="{{ \Request::route()->getName() == 'clients.index' || \Request::route()->getName() == 'clients.show' || \Request::route()->getName() == 'clients.edit' ? 'active' : ' ' }}">Liste
+                                Client</a></li>
+                        <li><a href="{{ route('clients.createclient') }}"
+                                class="{{ \Request::route()->getName() == 'clients.createclient' ? 'active' : ' ' }}">Nouveau
+                                Client</a></li>
+                        <li><a href="{{ route('clients.importclient') }}"
+                                class="{{ \Request::route()->getName() == 'clients.importclient' ? 'active' : ' ' }}">Import
+                                Client</a></li>
                     </ul>
                 </li>
+                @endif
+                @if(Auth::user()->CategoryUser->name_category_users==='gestionnaire' )
+                <li><a href="{{ route('comptoirs.create') }}"
+                    class="{{ \Request::route()->getName() == 'comptoirs.create' ? 'active' : ' ' }}">Comptoir</a></li>
+                @endif
+                @if(Auth::user()->CategoryUser->name_category_users==='admin' || Auth::user()->CategoryUser->name_category_users==='gerant' )
                 <li class="submenu">
-                    <a href="javascript:void(0);"><img src="assets/img/icons/sales1.svg" alt="img"><span>
+                    <a class="{{ $segment1 == 'commandeventes' || $segment1 == 'livraisons' || $segment1 == 'devis' ? 'active' : ' ' }}"
+                        href="javascript:void(0);"><img src="assets/img/icons/sales1.svg" alt="img"><span>
                             Gestion Ventes</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="saleslist.html">Liste Commande</a></li>
-                        <li><a href="pos.html">Nouveau Commande</a></li>
-                        <li><a href="pos.html">Comptoire</a></li>
-                        {{-- <li><a href="salesreturnlists.html">Liste Retourne Commande</a></li>
-                        <li><a href="createsalesreturns.html">Nouveau Retourne Commande</a></li> --}}
-                        <li><a href="salesreturnlists.html">Liste Devis</a></li>
-                        <li><a href="createsalesreturns.html">Nouveau Devis</a></li>
-                        <li><a href="salesreturnlists.html">Liste Livraison</a></li>
-                        <li><a href="createsalesreturns.html">Nouveau Livraison</a></li>
-                        <li><a href="salesreturnlists.html">Liste Facture</a></li>
-                        <li><a href="createsalesreturns.html">Nouveau Facture</a></li>
+                        <li><a href="{{ route('commandeventes.index') }}"
+                                class="{{ \Request::route()->getName() == 'commandeventes.index' || \Request::route()->getName() == 'commandeventes.show' || \Request::route()->getName() == 'commandeventes.edit' ? 'active' : ' ' }}">Liste
+                                Commande</a></li>
+                        <li><a href="{{ route('commandeventes.createcmdvente') }}"
+                                class="{{ \Request::route()->getName() == 'commandeventes.createcmdvente' ? 'active' : ' ' }}">Nouveau
+                                Commande</a></li>
+                        <li><a href="{{ route('livraisons.index') }}"
+                                class="{{ \Request::route()->getName() == 'livraisons.index' || \Request::route()->getName() == 'livraisons.show' || \Request::route()->getName() == 'livraisons.edit' ? 'active' : ' ' }}">Liste
+                                Livraison</a></li>
+                        <li><a href="{{ route('livraisons.createlivraison') }}"
+                                class="{{ \Request::route()->getName() == 'livraisons.createlivraison' ? 'active' : ' ' }}">Nouveau
+                                Livraison</a></li>
+                        <li><a href="{{ route('devis.index') }}"
+                                class="{{ \Request::route()->getName() == 'devis.index' || \Request::route()->getName() == 'devis.show' || \Request::route()->getName() == 'devis.edit' ? 'active' : ' ' }}">Liste
+                                Devis</a></li>
+                        <li><a href="{{ route('devis.create') }}"
+                                class="{{ \Request::route()->getName() == 'devis.create' ? 'active' : ' ' }}">Nouveau
+                                Devis</a></li>
                     </ul>
                 </li>
+
                 <li class="submenu">
-                    <a href="javascript:void(0);"><img src="assets/img/icons/users1.svg" alt="img"><span>
+                    <a class="{{ $segment1 == 'fournisseurs' ? 'active' : ' ' }}" href="javascript:void(0);"><img
+                            src="assets/img/icons/users1.svg" alt="img"><span>
                             Gestion Fournisseur</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="saleslist.html">Liste Fournisseur</a></li>
-                        <li><a href="pos.html">Nouveau Fournisseur</a></li>
+                        <li><a href="{{ route('fournisseurs.index') }}"
+                                class="{{ \Request::route()->getName() == 'fournisseurs.index' || \Request::route()->getName() == 'fournisseurs.show' || \Request::route()->getName() == 'fournisseurs.edit' ? 'active' : ' ' }}">Liste
+                                Fournisseur</a></li>
+                        <li><a href="{{ route('fournisseurs.createfournisseur') }}"
+                                class="{{ \Request::route()->getName() == 'fournisseurs.createfournisseur' ? 'active' : ' ' }}">Nouveau
+                                Fournisseur</a></li>
+                        <li><a href="{{ route('fournisseurs.importfournisseur') }}"
+                                class="{{ \Request::route()->getName() == 'fournisseurs.importfournisseur' ? 'active' : ' ' }}">Import
+                                Fournisseur</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a href="javascript:void(0);"><img src="assets/img/icons/purchase1.svg" alt="img"><span>
-                            Gestion Achat</span> <span class="menu-arrow"></span></a>
+                    <a class="{{ $segment1 == 'commandeachats' || $segment1 == 'receptions' ? 'active' : ' ' }}"
+                        href="javascript:void(0);"><img src="assets/img/icons/sales1.svg" alt="img"><span>
+                            Commande Achat</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="purchaselist.html">Liste Commande</a></li>
-                        <li><a href="addpurchase.html">Nouveau Commande</a></li>
-                        <li><a href="purchaselist.html">Liste Reception</a></li>
-                        <li><a href="addpurchase.html">Nouveau Reception</a></li>
-                        <li><a href="purchaselist.html">Liste Facture</a></li>
-                        <li><a href="addpurchase.html">Nouveau  Facture</a></li>
-                        <li><a href="importpurchase.html">Import Achat</a></li>
+                        <li><a href="{{ route('commandeachats.index') }}"
+                                class="{{ \Request::route()->getName() == 'commandeachats.index' || \Request::route()->getName() == 'commandeachats.show' || \Request::route()->getName() == 'commandeachats.edit' ? 'active' : ' ' }}">Liste
+                                Commande</a></li>
+                        <li><a href="{{ route('commandeachats.createcmdachat') }}"
+                                class="{{ \Request::route()->getName() == 'commandeachats.createcmdachat' ? 'active' : ' ' }}">Nouveau
+                                Commande</a></li>
+                        <li><a href="{{ route('receptions.index') }}"
+                                class="{{ \Request::route()->getName() == 'receptions.index' || \Request::route()->getName() == 'receptions.show' || \Request::route()->getName() == 'receptions.edit' ? 'active' : ' ' }}">Liste
+                                Reception</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a href="javascript:void(0);"><img src="assets/img/icons/expense1.svg" alt="img"><span>
+                    <a class="{{ $segment1 == 'achatfactures' || $segment1 == 'ventefactures' ? 'active' : ' ' }}"
+                        href="javascript:void(0);"><img src="assets/img/icons/purchase1.svg" alt="img"><span>
+                            Gestion des Factures</span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="{{ route('achatfactures.index') }}"
+                                class="{{ \Request::route()->getName() == 'achatfactures.index' || \Request::route()->getName() == 'achatfactures.show' || \Request::route()->getName() == 'achatfactures.edit' ? 'active' : ' ' }}">Facture
+                                Achat</a></li>
+                        <li><a href="{{ route('ventefactures.index') }}"
+                                class="{{ \Request::route()->getName() == 'ventefactures.index' || \Request::route()->getName() == 'ventefactures.show' || \Request::route()->getName() == 'ventefactures.edit' ? 'active' : ' ' }}">Facture
+                                Vente</a></li>
+                        {{-- <li><a href="{{route('retournachats.index')}}" class="{{ $segment1 == 'retournachats'  ? 'active' : ' ' }}">Retourn Achat</a></li> --}}
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a class="{{ $segment1 == 'retournachats' || $segment1 == 'retournventes' ? 'active' : ' ' }}"
+                        href="javascript:void(0);"><img src="assets/img/icons/return1.svg" alt="img"><span>
+                            Gestion des Retours</span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="{{ route('retournachats.index') }}"
+                                class="{{ \Request::route()->getName() == 'retournachats.index' || \Request::route()->getName() == 'retournachats.show' || \Request::route()->getName() == 'retournachats.edit' ? 'active' : ' ' }}">Retourn
+                                Achat</a></li>
+                        <li><a href="{{ route('retournventes.index') }}"
+                                class="{{ \Request::route()->getName() == 'retournventes.index' || \Request::route()->getName() == 'retournventes.show' || \Request::route()->getName() == 'retournventes.edit' ? 'active' : ' ' }}">Retourn
+                                Vente</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a class="{{ $segment1 == 'typedepenses' || $segment1 == 'depenses' || $segment1 == 'typedepenses' ? 'active' : ' ' }}"
+                        href="javascript:void(0);"><img src="assets/img/icons/expense1.svg" alt="img"><span>
                             Gestion Depense</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="expenselist.html">Liste Depense</a></li>
-                        <li><a href="createexpense.html">Nouveau Depense</a></li>
-                        <li><a href="expensecategory.html">Categorie Depense</a></li>
+                        <li><a href="{{ route('depenses.index') }}"
+                                class="{{ \Request::route()->getName() == 'depenses.index' || \Request::route()->getName() == 'depenses.show' || \Request::route()->getName() == 'depenses.edit' ? 'active' : ' ' }}">Liste
+                                Depense</a></li>
+                        <li><a href="{{ route('depenses.create') }}"
+                                class="{{ \Request::route()->getName() == 'depenses.create' ? 'active' : ' ' }}">Nouveau
+                                Depense</a></li>
+                        <li><a href="{{ route('typedepenses.index') }}"
+                                class="{{ \Request::route()->getName() == 'typedepenses.index' || \Request::route()->getName() == 'typedepenses.show' || \Request::route()->getName() == 'typedepenses.edit' || \Request::route()->getName() == 'typedepenses.create' ? 'active' : ' ' }}">Categorie
+                                Depense</a></li>
                     </ul>
                 </li>
+                @endif
                 {{-- <li class="submenu">
                     <a href="javascript:void(0);"><img src="assets/img/icons/quotation1.svg" alt="img"><span>
                             Quotation</span> <span class="menu-arrow"></span></a>
@@ -243,18 +344,21 @@
                         <li><a href="userlists.html">Users List</a></li>
                     </ul>
                 </li> --}}
+                @if(Auth::user()->CategoryUser->name_category_users==='admin' )
                 <li class="submenu">
-                    <a href="javascript:void(0);"><img src="assets/img/icons/settings.svg" alt="img"><span>
+                    <a class="{{ $segment1 == 'utilisateur' || $segment1 == 'companies' ? 'active' : ' ' }}"
+                        href="javascript:void(0);"><img src="assets/img/icons/settings.svg" alt="img"><span>
                             Parametres</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="generalsettings.html">General Settings</a></li>
-                        <li><a href="emailsettings.html">Nouveau Utilisateur</a></li>
-                        <li><a href="{{route('utilisateur.index')}}">Liste Utilisateur</a></li>
-                        <li><a href="currencysettings.html">Currency Settings</a></li>
-                        <li><a href="grouppermissions.html">Group Permissions</a></li>
-                        <li><a href="taxrates.html">Tax Rates</a></li>
+                        <li><a href="{{ route('companies.create') }}"
+                                class="{{ \Request::route()->getName() == 'companies.create' ? 'active' : ' ' }}">Parametre
+                                Societe</a></li>
+                        <li><a href="{{ route('utilisateur.index') }}"
+                                class="{{ \Request::route()->getName() == 'utilisateur.index' || \Request::route()->getName() == 'utilisateur.show' || \Request::route()->getName() == 'utilisateur.edit' ? 'active' : ' ' }}">Liste
+                                Utilisateur</a></li>
                     </ul>
                 </li>
+                @endif
             </ul>
         </div>
     </div>

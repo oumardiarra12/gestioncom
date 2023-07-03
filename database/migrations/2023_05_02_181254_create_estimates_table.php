@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string("num_estimates");
             $table->enum("status_estimates",["in progress","valid","dismiss"])->default("in progress");
             $table->string("description_estimates")->nullable();
+            $table->integer("total_estimates");
             $table->timestamps();
+            $table->foreignId("users_id")->constrained('users');
             $table->foreignId("customers_id")->constrained('customers');
         });
         Schema::enableForeignKeyConstraints();
@@ -28,7 +30,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('estimates', function (Blueprint $table) {
-            $table->dropColumn(["customers_id"]);
+            $table->dropColumn(["customers_id","users_id"]);
         });
         Schema::dropIfExists('estimates');
     }

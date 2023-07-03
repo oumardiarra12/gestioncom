@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\LineCustomerOrder;
+use App\Models\ReturnCustomer;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -45,7 +46,14 @@ class DatabaseSeeder extends Seeder
             LinePurchaseInvoiceSeeder::class,
             SupplierPaymentSeeder::class,
             ExpenseTypeSeeder::class,
-            ExpenseSeeder::class
+            ExpenseSeeder::class,
+            ReturnPurchaseSeeder::class,
+            LineReturnPurchaseSeeder::class,
+            CompanySeeder::class,
+            ReturnCustomerSeeder::class,
+            LIneReturnCustomerSeeder::class,
+            ComptoirSeeder::class,
+            LineComptoirSeeder::class
         ]);
     }
 }

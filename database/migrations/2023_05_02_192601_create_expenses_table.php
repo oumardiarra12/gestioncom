@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
+            $table->string("number_expense")->nullable();
             $table->string("reason");
             $table->integer("amount");
+            $table->string("description_expense");
             $table->timestamps();
             $table->foreignId("expense_types_id")->constrained('expense_types');
         });

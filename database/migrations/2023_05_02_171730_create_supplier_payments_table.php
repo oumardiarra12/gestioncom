@@ -16,7 +16,9 @@ return new class extends Migration
             $table->integer("amount_to_be_paid");
             $table->integer("amount_to_pay");
             $table->integer("reste");
+            $table->string("num_supplier_payment")->nullable();
             $table->string("description_supplier_payment")->nullable();
+            $table->foreignId("users_id")->constrained('users');
             $table->foreignId("purchase_invoices_id")->constrained('purchase_invoices');
             $table->timestamps();
         });
@@ -29,7 +31,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('supplier_payments', function (Blueprint $table) {
-            $table->dropColumn(["purchase_invoices_id"]);
+            $table->dropColumn(["purchase_invoices_id","users_id"]);
         });
         Schema::dropIfExists('supplier_payments');
     }

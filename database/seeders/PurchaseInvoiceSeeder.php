@@ -17,11 +17,12 @@ class PurchaseInvoiceSeeder extends Seeder
         $faker = Factory::create('fr_FR');
         for ($i=1; $i <= 10 ; $i++) {
            PurchaseInvoice::create([
-               'status_purchase_invoice' => 'no pay',
+               'status_purchase_invoice' => 'no_pay',
                'num_purchase_invoice' => $faker->numerify,
                'total_purchase_invoice'=>$faker->randomDigitNotZero,
                'receptions_id'=>$i,
-               'description_purchase_invoice'=>$faker->text
+               'description_purchase_invoice'=>$faker->text,
+               'users_id'=>1
            ]);
        }
     }

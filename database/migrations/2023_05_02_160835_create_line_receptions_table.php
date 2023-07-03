@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
            $table->integer("qty_line_reception");
            $table->integer("qty_recu_line_reception");
+           $table->integer("price_line_reception");
+           $table->integer("subtotal_line_reception");
            $table->foreignId("products_id")->constrained('products');
            $table->foreignId("receptions_id")->constrained('receptions');
         });

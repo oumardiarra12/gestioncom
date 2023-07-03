@@ -21,6 +21,7 @@ class CustomerInvoiceSeeder extends Seeder
                'num_customer_invoices' => $faker->numerify,
                'total_customer_invoices'=>$faker->randomDigitNotZero,
                'deliveries_id'=>$i,
+               "users_id"=>1,
                'description_customer_invoices'=>$faker->text
            ]);
        }

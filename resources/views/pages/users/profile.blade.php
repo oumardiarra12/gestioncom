@@ -12,7 +12,9 @@
 @endsection
 @section('content')
     <div class="card">
-       
+        <form method="POST" action="{{ route('profile.update') }}"  enctype="multipart/form-data">
+            @method('put')
+            @csrf
         <div class="card-body">
             <div class="profile-set">
                 <div class="profile-head">
@@ -20,7 +22,7 @@
                 <div class="profile-top">
                     <div class="profile-content">
                         <div class="profile-contentimg">
-                            <img src="users/{{$user->image}}" alt="img" id="blah">
+                            <img src="{{ asset('/storage/users/'.$user->image) }}" alt="img" id="blah">
                             <div class="profileupload">
                                 <input type="file" name="image" id="imgInp">
                                 <a href="javascript:void(0);"><img src="assets/img/icons/edit-set.svg" alt="img"></a>
@@ -33,9 +35,7 @@
                     </div>
                 </div>
             </div>
-            <form method="POST" action="{{ route('profile.update') }}"  enctype="multipart/form-data">
-                @method('put')
-                @csrf
+
                 @if($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -80,7 +80,7 @@
                     <div class="form-group">
                         <label>Mot de Passe</label>
                         <div class="pass-group">
-                            <input type="password" class="pass-input">
+                            <input type="password" class="pass-input" name="password">
                             <span class="fas toggle-password fa-eye-slash"></span>
                         </div>
                     </div>
@@ -101,6 +101,6 @@
             </div>
         </form>
     </div>
-        
+
     </div>
 @endsection

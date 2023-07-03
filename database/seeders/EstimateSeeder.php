@@ -20,7 +20,9 @@ class EstimateSeeder extends Seeder
                'num_estimates' => $faker->numerify,
                'status_estimates' => 'in progress',
                'description_estimates'=>$faker->text,
-               'customers_id'=>$i
+               "total_estimates"=>$faker->randomDigitNotNull,
+               'customers_id'=>$i,
+               "users_id"=>1
            ]);
        }
     }

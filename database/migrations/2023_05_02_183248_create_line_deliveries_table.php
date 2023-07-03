@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('line_deliveries', function (Blueprint $table) {
             $table->id();
+            $table->integer("qty_line_order");
             $table->integer("qty_line_deliverie");
             $table->integer("price_line_deliverie");
             $table->integer("subtotal_line_deliverie");

@@ -20,7 +20,9 @@ class DeliverySeeder extends Seeder
                'num_deliveries' => $faker->numerify,
                'status_deliveries' => "no invoice",
                'description_deliveries'=>$faker->text,
-               'customer_orders_id'=>$i
+               'customer_orders_id'=>$i,
+               "total_deliveries"=>$faker->randomDigitNotNull,
+               "users_id"=>1
            ]);
        }
     }

@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class PurchaseOrder extends Model
 {
     use HasFactory;
-    protected $fillable = ["id","stats_purchase_order", "num_purchase_order","description_purchase_order","suppliers_id","total_purchase_order"];
+    protected $fillable = ["id","stats_purchase_order", "num_purchase_order","description_purchase_order","suppliers_id","total_purchase_order","users_id"];
     public function supplier(){
         return $this->belongsTo(Supplier::class,"suppliers_id","id");
+    }
+    public function user(){
+        return $this->belongsTo(User::class,"users_id","id");
     }
     public function line_purchase_order(){
         return $this->hasMany(LinePurchaseOrder::class);

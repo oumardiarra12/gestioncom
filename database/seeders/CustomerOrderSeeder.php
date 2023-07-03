@@ -20,7 +20,9 @@ class CustomerOrderSeeder extends Seeder
             "num_customer_order" => $faker->numerify,
             "status_customer_order" => "in progress",
             "description_customer_order"=>$faker->text,
-            "customers_id"=>$i
+            "total_customer_order"=>$faker->randomDigitNotNull,
+            "customers_id"=>$i,
+            "users_id"=>1
            ]);
        }
     }

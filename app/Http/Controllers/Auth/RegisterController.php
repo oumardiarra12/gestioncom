@@ -81,7 +81,7 @@ class RegisterController extends Controller
         $imageName="";
         if($request->file('image')){
             $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('users'), $imageName);
+            $request->image->storeAs('public/users', $imageName);
         }else {
             $imageName="default.jpg";
         }
@@ -119,7 +119,7 @@ class RegisterController extends Controller
               unlink($image_path);
             }
             $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('users'), $imageName);
+            $request->image->storeAs('public/users', $imageName);
             $user->image=$imageName;
             $user->save();
         }

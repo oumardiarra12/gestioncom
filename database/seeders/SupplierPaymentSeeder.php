@@ -21,7 +21,8 @@ class SupplierPaymentSeeder extends Seeder
                'amount_to_pay' => $faker->randomDigitNotZero,
                'reste'=>0,
                'description_supplier_payment'=>$faker->text,
-               'purchase_invoices_id'=>$i
+               'purchase_invoices_id'=>$i,
+               'users_id'=>1
            ]);
        }
     }

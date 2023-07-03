@@ -15,14 +15,15 @@ class LineDeliverySeeder extends Seeder
     public function run(): void
     {
         $faker = Factory::create('fr_FR');
-        for ($i=1; $i <= 10 ; $i++) {
-           LineDelivery::create([
-               'qty_line_deliverie' => 10,
-               'price_line_deliverie' => $faker->randomDigitNotZero,
-               'subtotal_line_deliverie'=>$faker->randomDigitNotZero,
-               'products_id'=>$i,
-               'deliveries_id'=>$i
-           ]);
-       }
+        for ($i = 1; $i <= 10; $i++) {
+            LineDelivery::create([
+                'qty_line_order' => 5,
+                'qty_line_deliverie' => 10,
+                'price_line_deliverie' => $faker->randomDigitNotZero,
+                'subtotal_line_deliverie' => $faker->randomDigitNotZero,
+                'products_id' => $i,
+                'deliveries_id' => $i
+            ]);
+        }
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -49,19 +50,27 @@ class LoginController extends Controller
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/');
+            // return redirect()->intended('/');
+            if (auth()->user()->CategoryUser->name_category_users == 'admin') {
+                return redirect()->route('home.index');
+            }else if (auth()->user()->CategoryUser->name_category_users == 'gerant') {
+                return redirect()->route('home.homegerant');
+            }else if (auth()->user()->CategoryUser->name_category_users == 'gestionnaire'){
+                return redirect()->route('home.user');
+            }
+        }else {
+            return redirect()->route('login');
         }
 
         return redirect("login")->withSuccess('Login details are not valid');
     }
     public function logout(Request $request){
-        Auth::guard('web')->logout();
+        Auth::logout();
 
         $request->session()->invalidate();
 
-        $request->session()->regenerateToken();
+        $request->session()->regenerate(true);
 
-        //Auth::logout();
-        return Redirect('login');
+        return redirect()->route('login');
     }
 }

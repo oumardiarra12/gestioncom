@@ -20,7 +20,9 @@ class ReceptionSeeder extends Seeder
                'status_reception' => 'non invoice',
                'num_reception' => $faker->numerify,
                'description_reception'=>$faker->text,
-               'purchase_orders_id'=>$i
+               'total_reception'=>$faker->numerify,
+               'purchase_orders_id'=>$i,
+               'users_id'=>1
            ]);
        }
     }

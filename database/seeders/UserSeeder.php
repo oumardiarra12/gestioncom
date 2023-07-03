@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'lastname' => $faker->lastName,
             'telephone' => $faker->phoneNumber,
             'email' => 'admin@test.ml',
-            'image' => 'assets/media/avatars/blank.png',
+            'image' => 'userdefault.jpg',
             'addresse'=>$faker->text,
             'password' => Hash::make('Bamako123'),
             'category_users_id'=>1
@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
                'telephone' => $faker->phoneNumber,
                'addresse'=>$faker->text,
                'email' => 'test@test'.$i.'.ml',
-               'image' => 'assets/media/avatars/blank.png',
+               'image' => 'userdefault.jpg',
                'password' => Hash::make('Bamako123'),
                'category_users_id'=>2
            ]);

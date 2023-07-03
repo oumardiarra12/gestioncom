@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('customer_orders', function (Blueprint $table) {
             $table->id();
-            $table->string("num_customer_order");
+            $table->string("num_customer_order")->nullable();
             $table->enum("status_customer_order",["in progress","delivery","biased delivery","cancel"])->default("in progress");
             $table->string("description_customer_order")->nullable();
+            $table->float("total_customer_order");
             $table->timestamps();
+            $table->foreignId("users_id")->constrained('users');
             $table->foreignId("customers_id")->constrained('customers');
         });
         Schema::enableForeignKeyConstraints();
@@ -28,7 +30,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('customer_orders', function (Blueprint $table) {
-            $table->dropColumn(["customers_id"]);
+            $table->dropColumn(["customers_id","users_id"]);
         });
         Schema::dropIfExists('customer_orders');
     }

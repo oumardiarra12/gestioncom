@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('receptions', function (Blueprint $table) {
             $table->id();
             $table->enum("status_reception",["non invoice","to invoice"])->default("non invoice");
-            $table->string("num_reception");
+            $table->string("num_reception")->nullable();
             $table->string("description_reception")->nullable();
+            $table->float("total_reception");
+            $table->foreignId("users_id")->constrained('users');
             $table->foreignId("purchase_orders_id")->nullable()->constrained('purchase_orders');
             $table->timestamps();
         });
@@ -28,7 +30,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('receptions', function (Blueprint $table) {
-            $table->dropColumn(["purchase_orders_id"]);
+            $table->dropColumn(["purchase_orders_id","users_id"]);
         });
         Schema::dropIfExists('receptions');
     }

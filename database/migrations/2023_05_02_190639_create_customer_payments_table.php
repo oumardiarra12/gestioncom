@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('customer_payments', function (Blueprint $table) {
             $table->id();
+            $table->string("num_customer_payment")->nullable();
             $table->integer("amount_to_be_paid");
             $table->integer("amount_to_pay");
             $table->integer("reste");
             $table->string("description_customer_payment")->nullable();
+            $table->foreignId("users_id")->constrained('users');
             $table->foreignId("customer_invoices_id")->constrained('customer_invoices');
             $table->timestamps();
         });
@@ -29,7 +31,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('customer_payments', function (Blueprint $table) {
-            $table->dropColumn(["customer_invoices_id"]);
+            $table->dropColumn(["customer_invoices_id","users_id"]);
         });
         Schema::dropIfExists('customer_payments');
     }

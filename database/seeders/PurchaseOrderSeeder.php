@@ -21,7 +21,8 @@ class PurchaseOrderSeeder extends Seeder
                'num_purchase_order' => $faker->numerify,
                'description_purchase_order'=>$faker->text,
                'suppliers_id'=>$i,
-               'total_purchase_order'=>$faker->randomDigitNotZero
+               'total_purchase_order'=>$faker->randomDigitNotZero,
+               'users_id'=>1
            ]);
        }
     }

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('purchase_invoices', function (Blueprint $table) {
             $table->id();
-            $table->enum("status_purchase_invoice",["pay","no pay","partial pay"])->default("no pay");
-            $table->string("num_purchase_invoice");
+            $table->enum("status_purchase_invoice",["pay","no_pay","partial_pay"])->default("no_pay");
+            $table->string("num_purchase_invoice")->nullable();
             $table->integer("total_purchase_invoice");
             $table->string("description_purchase_invoice")->nullable();
+            $table->foreignId("users_id")->constrained('users');
             $table->foreignId("receptions_id")->constrained('receptions');
             $table->timestamps();
         });
@@ -29,7 +30,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('purchase_invoices', function (Blueprint $table) {
-            $table->dropColumn(["receptions_id"]);
+            $table->dropColumn(["receptions_id","users_id"]);
         });
         Schema::dropIfExists('purchase_invoices');
     }

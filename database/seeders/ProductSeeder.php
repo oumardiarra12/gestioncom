@@ -18,12 +18,14 @@ class ProductSeeder extends Seeder
         for ($i=1; $i <= 10 ; $i++) {
           Product::create([
             "ref_product"=>$faker->numerify,
-            "codebarre_product"=>$faker->numerify,
-               'image_product' => $faker->imageUrl,
+            "codebarre_product"=>$faker->numerify('##########'),
+               'image_product' => 'produitdefault.jpg',
                'name_product' => $faker->name,
+               'price_sale'=>$faker->randomDigitNotZero,
+               'price_purchase'=>$faker->randomDigitNotZero,
                "stock_min"=>20,
                "stock_actuel"=>200,
-               "categories_id"=>$i,
+               "category_id"=>$i,
                "units_id"=>1
            ]);
        }

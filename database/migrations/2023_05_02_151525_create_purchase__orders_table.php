@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
-            $table->enum("stats_purchase_order",["in progress","receipt","biased receipt","cancel"])->default("in progress");
-            $table->string("num_purchase_order");
+            $table->enum("stats_purchase_order",["in progress","receipt","biased receipt"])->default("in progress");
+            $table->string("num_purchase_order")->nullable();
             $table->string("description_purchase_order")->nullable();
             $table->float("total_purchase_order");
+            $table->foreignId("users_id")->constrained('users');
             $table->foreignId("suppliers_id")->constrained('suppliers');
             $table->timestamps();
         });
@@ -29,7 +30,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('purchase_orders', function (Blueprint $table) {
-            $table->dropColumn(["suppliers_id"]);
+            $table->dropColumn(["suppliers_id","users_id"]);
         });
         Schema::dropIfExists('purchase_orders');
     }

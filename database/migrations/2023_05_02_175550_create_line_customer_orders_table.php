@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('line_customer_orders', function (Blueprint $table) {
             $table->id();
             $table->integer("qty_line_customer_order");
+            $table->integer("qty_line_delivery")->default(0);
             $table->integer("price_line_customer_order");
             $table->integer("subtotal_line_customer_order");
             $table->foreignId("products_id")->constrained('products');

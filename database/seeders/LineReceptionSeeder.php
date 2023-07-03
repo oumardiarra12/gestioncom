@@ -19,6 +19,8 @@ class LineReceptionSeeder extends Seeder
            LineReception::create([
                'qty_line_reception' => 10,
                'qty_recu_line_reception' => 5,
+               'price_line_reception' => $faker->randomDigitNotZero,
+               'subtotal_line_reception'=>$faker->randomDigitNotZero,
                'products_id'=>$i,
                'receptions_id'=>$i
            ]);

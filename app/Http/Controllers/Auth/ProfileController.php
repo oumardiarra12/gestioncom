@@ -16,7 +16,7 @@ class ProfileController extends Controller
         return view('pages.users.profile',compact('user'));
     }
     public function update(UpdateProfileRequest $request){
-        $user=Auth::user();
+        $user=User::findOrFail(Auth::user()->id);
         $imageName="";
         if($request->file('image')){
             $image_path = public_path('users/'.$user->image);
@@ -28,12 +28,22 @@ class ProfileController extends Controller
             $user->image=$imageName;
             $user->save();
         }
+        if($request->filled('password')){
+            $user->update(['password' => bcrypt($request->password)]);
+        }
+        unset($request['id']);
+		if (!$request->password) {
+	        unset($request['password']);
+		}
+        unset($request['password_confirmation']);
+
         $user->update([
             'firstname'=>$request->firstname,
             'lastname'=>$request->lastname,
-            'password'=>$request->password,
+            // 'image'=>"nullable",
             'telephone'=>$request->telephone,
             'addresse'=>$request->addresse,
+           //'password'=>$request->password,
             'email'=>$request->email,
         ]);
 
