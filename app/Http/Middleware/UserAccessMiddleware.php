@@ -15,11 +15,18 @@ class UserAccessMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next,$userType): Response
+    public function handle(Request $request, Closure $next): Response
     {
 
-            if(Auth::check() && Auth::user()->CategoryUser->name_category_users==$userType){
-                return $next($request);
+            if(Auth::check()){
+                if(Auth::user()->CategoryUser->name_category_users=='admin'){
+                    return $next($request);
+                }elseif (Auth::user()->CategoryUser->name_category_users=='gerant') {
+                    return $next($request);
+                }elseif (Auth::user()->CategoryUser->name_category_users=='gestionnaire') {
+                    return $next($request);
+                }
+
             }else if(!Auth::check()){
                 return redirect()->route('login');
             }else{
