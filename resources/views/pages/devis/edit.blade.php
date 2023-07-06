@@ -1,12 +1,20 @@
 @extends('layouts.master')
 @section('title', 'Gestion Devis')
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
 
+    </style>
+@endsection
 @section('title_toolbar', 'Edit Devis')
 @section('subtitle_toolbar', 'Gestion desDevis')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('devis.update', $estimate->id) }}">
+            <form method="POST" action="{{ route('devis.update', $estimate->id) }}" id="editdevisform">
                 @method('put')
                 @csrf
                 @if($errors->any())
@@ -136,6 +144,67 @@
     </div>
 @endsection
 @section('script')
+<script>
+    $(document).ready(function() {
+        $("#editdevisform").validate({
+             ignore: [],
+            rules: {
+                // total_estimates: {
+                //     required: true,
+                //     digits: true
+                // },
+                customers_id: "required",
+                "products_id[]": {
+                    required: true,
+                },
+                "qty_line_estimate[]": {
+                    required: true,
+                    digits: true
+                },
+                "price_line_estimate[]": {
+                    required: true,
+                    digits: true
+                },
+                // "subtotal_line_estimate[]": {
+                //     required: true,
+                //     digits: true
+                // },
+
+            },
+            messages: {
+                // total_estimates: {
+                //     required: "Total is required",
+                //     digits: "Total is must numeric"
+                // },
+                customers_id: {
+                    required: "Customer is required"
+                },
+                "qty_line_estimate[]":{
+                    required: "Qty is required",
+                    digits: "Qty is must numeric"
+                },
+                "price_line_estimate[]":{
+                    required: "Price is required",
+                    digits: "Price is must numeric"
+                },
+                // "subtotal_line_estimate[]":{
+                //     required: "Sous Total is required",
+                //     digits: "Sous Total is must numeric"
+                // },
+
+            },
+            // errorPlacement:function(error,element){
+            //     if(element.attr("name")=="products_id[]"){
+            //         $('#message_error').empty();error.appendTo('#message_error')
+            //     }else{
+            //         error.insertAfter(element)
+            //     }
+            // }
+
+        });
+
+    });
+</script>
     <script>
     $(document).ready(function() {
         $('.products_id').select2({
@@ -200,21 +269,21 @@
                                         <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number" value="{{$ligneestimate->qty_line_estimate}}" name="qty_line_estimate[]" class="form-control qty_line_estimate"  @error("qty_line_estimate") is-invalid @enderror>
+                                                    <input type="number" value="{{$ligneestimate->qty_line_estimate}}" name="qty_line_estimate[]" id="qty" class="form-control qty_line_estimate"  @error("qty_line_estimate") is-invalid @enderror>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number" value="{{$ligneestimate->price_line_estimate}}" name="price_line_estimate[]" class="form-control price_line_estimate"  @error("price_line_estimate") is-invalid @enderror>
+                                                    <input type="number" value="{{$ligneestimate->price_line_estimate}}" name="price_line_estimate[]" id="price" class="form-control price_line_estimate"  @error("price_line_estimate") is-invalid @enderror>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number" value="{{$ligneestimate->subtotal_line_estimate}}" class="form-control subtotal_line_estimate" name="subtotal_line_estimate[]" @error("subtotal_line_estimate") is-invalid @enderror readonly>
+                                                    <input type="number" value="{{$ligneestimate->subtotal_line_estimate}}" class="form-control subtotal_line_estimate" id="subtotal" name="subtotal_line_estimate[]" @error("subtotal_line_estimate") is-invalid @enderror readonly>
                                                 </div>
                                             </div>
                                         </td>
@@ -224,6 +293,13 @@
                                         </td>
                                     </tr>`
             $('tbody').append(addline);
+            var newSelectId = 'select' + Date.now();
+            var i = 1
+            //select 2
+            $('#element').attr('id', newSelectId).select2({tags: true});
+            $('#qty').attr('id', i++);
+            $('#price').attr('id', i++);
+            $('#subtotal').attr('id', i++);
         };
 
         $('tbody').delegate('.remove','click',function(){

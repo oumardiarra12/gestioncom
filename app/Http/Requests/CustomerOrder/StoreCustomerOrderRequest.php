@@ -25,7 +25,7 @@ class StoreCustomerOrderRequest extends FormRequest
             "total_customer_order"=>'required|numeric',
             "description_customer_order"=>'nullable|string',
             "customers_id"=>"required",
-            "qty_line_customer_order.*"=>"required",
+            "qty_line_customer_order.*"=>"required|numeric",
             "price_line_customer_order.*"=>"required",
             "subtotal_line_customer_order.*"=>"required",
             "products_id.*"=>"required",

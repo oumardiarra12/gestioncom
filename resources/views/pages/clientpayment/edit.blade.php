@@ -1,12 +1,19 @@
 @extends('layouts.master')
 @section('title', 'Gestion Client Paiement')
-
+@section('style')
+<style>
+    label.error {
+         color: #dc3545;
+         font-size: 14px;
+    }
+</style>
+@endsection
 @section('title_toolbar', 'Edit Client Paiement')
 @section('subtitle_toolbar', 'Gestion des Client Paiements')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form  method="POST" action="{{ route('customerpayements.update', $customerpayment->id) }}">
+            <form  method="POST" action="{{ route('customerpayements.update', $customerpayment->id) }}" id="editcustomerpayementform">
                 @method('put')
                 @csrf
             <div class="modal-header">
@@ -60,7 +67,7 @@
             </div>
             <div class="modal-footer">
                 <button  class="btn btn-submit">Submit</button>
-                <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Close</button>
+                <a href="{{ route('ventefactures.index') }}" class="btn btn-cancel">Close</a>
             </div>
         </form>
 
@@ -68,6 +75,40 @@
     </div>
 @endsection
 @section('script')
+<script>
+    $(document).ready(function() {
+$("#editcustomerpayementform").validate({
+  rules: {
+    amount_to_be_paid: {
+          required:true,
+          digits: true
+      },
+      amount_to_pay: {
+          required:true,
+          digits: true
+      },
+      reste:{
+          required:true,
+          digits: true
+      },
+  },
+  messages:{
+    amount_to_be_paid:{
+          required: "Amount to be pay is required",
+          digits: "Amount to be pay is numeric",
+      },
+      amount_to_pay:{
+          required: "Amount to  pay is required",
+          digits: "Amount to  pay is numeric",
+      },
+      reste:{
+          required: "Reste is required",
+          digits: "Reste min is numeric",
+      },
+  }
+});
+});
+</script>
 <script>
     $(document).ready(function() {
 

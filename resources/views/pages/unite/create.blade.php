@@ -1,12 +1,19 @@
 @extends('layouts.master')
 @section('title', 'Gestion Unite')
-
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
+    </style>
+@endsection
 @section('title_toolbar', 'Nouveau Unite')
 @section('subtitle_toolbar', 'Gestion des Unites')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST"  action="{{ route('unites.store') }}" id="form">
+            <form method="POST"  action="{{ route('unites.store') }}" id="unitform">
                 @csrf
                 @if($errors->any())
                 <div class="alert alert-danger">
@@ -40,4 +47,20 @@
         </div>
     </div>
 @endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $("#unitform").validate({
+                rules: {
+                    name_unit: "required",
+                },
+                messages: {
+                    name_unit: {
+                        required: "Unit name is required"
+                    }
 
+                }
+            });
+        });
+    </script>
+@endsection

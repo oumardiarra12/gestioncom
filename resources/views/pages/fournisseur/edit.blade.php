@@ -1,12 +1,19 @@
 @extends('layouts.master')
 @section('title', 'Gestion Fournisseur')
-
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
+    </style>
+@endsection
 @section('title_toolbar', 'Edit Fournisseur')
 @section('subtitle_toolbar', 'Gestion desFournisseurs')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('fournisseurs.update', $supplier->id) }}">
+            <form method="POST" action="{{ route('fournisseurs.update', $supplier->id) }}" id="editsupplierform">
                 @method('put')
                 @csrf
                 @if($errors->any())
@@ -74,4 +81,56 @@
 
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $("#editsupplierform").validate({
+                rules: {
+                    name_supplier: "required",
+                    tel_supplier: "required",
+                    address_supplier: "required",
+                    email_supplier: {
+                        required: true,
+                        email: true
+                    },
+                    firstname_contact_supplier: "required",
+                    lastname_contact_supplier: "required",
+                    tel_contact_supplier: "required",
+                    email_contact_supplier: {
+                        required: true,
+                        email: true
+                    },
+                },
+                messages: {
+                    name_supplier: {
+                        required: "Name Supplier is required"
+                    },
+                    tel_supplier: {
+                        required: "Phone is required"
+                    },
+                    address_supplier: {
+                        required: "Address is required"
+                    },
+                    email_supplier: {
+                        required: "Email is required",
+                        email:"Email is not Email"
+                    },
+                    firstname_contact_supplier: {
+                        required: "Fist Name Supplier is required"
+                    },
+                    lastname_contact_supplier: {
+                        required: "Last Name Supplier is required"
+                    },
+                    tel_contact_supplier: {
+                        required: "Phone Supplier is required"
+                    },
+                    email_contact_supplier: {
+                        required: "Email is required",
+                        email:"Email is not Email"
+                    },
+                }
+            });
+        });
+    </script>
 @endsection

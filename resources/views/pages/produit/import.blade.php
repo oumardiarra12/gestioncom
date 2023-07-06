@@ -1,6 +1,13 @@
 @extends('layouts.master')
 @section('title', 'Gestion Produit')
-
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
+    </style>
+@endsection
 @section('title_toolbar', 'Import Produit')
 @section('subtitle_toolbar', 'Gestion des Produits')
 @section('btn_add_item')
@@ -16,7 +23,7 @@
                 <h4>Le champ doit être au format csv</h4>
             </div>
             <div class="row">
-                <form method="POST" action="{{ route('produits.storeproduit') }}" enctype="multipart/form-data" id="form">
+                <form method="POST" action="{{ route('produits.storeproduit') }}" enctype="multipart/form-data" id="importproductform">
                 <div class="col-lg-12">
                         @csrf
                         @if ($errors->any())
@@ -93,4 +100,21 @@
         </form>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $("#importproductform").validate({
+                rules: {
+                    importproduit: "required",
+                },
+                messages: {
+                    importproduit: {
+                        required: "import file is required"
+                    }
+
+                }
+            });
+        });
+    </script>
 @endsection

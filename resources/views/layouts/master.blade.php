@@ -61,6 +61,7 @@
     <!--end::Main-->
     <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('assets/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.valiadate.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.slimscroll.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>

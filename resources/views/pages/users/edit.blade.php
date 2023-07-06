@@ -1,12 +1,19 @@
 @extends('layouts.master')
 @section('title', 'Gestion Utilisateur')
-
+@section('style')
+<style>
+    label.error {
+         color: #dc3545;
+         font-size: 14px;
+    }
+</style>
+@endsection
 @section('title_toolbar', 'Edit Utilisateur')
 @section('subtitle_toolbar', 'Gestion des Utilisateurs')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('utilisateur.update',$user->id) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('utilisateur.update',$user->id) }}" enctype="multipart/form-data" id="edituserform">
                 @method('put')
                 @csrf
                 @if($errors->any())
@@ -85,6 +92,63 @@
 
 @endsection
 @section('script')
+<script>
+    $(document).ready(function() {
+$("#edituserform").validate({
+  rules: {
+    firstname:"required",
+    lastname:"required",
+    telephone:{
+        required:true,
+        digits:true
+    },
+    addresse:"required",
+    category_users_id:"required",
+    email: {
+          required:true,
+          email: true,
+      },
+      password: {
+          required:true,
+
+      },
+      password_confirmation:{
+        required:true,
+        equalTo: "#password"
+      }
+  },
+  messages:{
+    firstname:{
+          required: "First Name is required",
+      },
+      lastname:{
+          required: "Last Name is required",
+      },
+      telephone:{
+          required: "Phone is required",
+          digits: "Phone is numeric",
+      },
+      addresse:{
+          required: "Address is required",
+      },
+      category_users_id:{
+          required: "Category is required",
+      },
+      email:{
+          required: "Email is required",
+          email:"Email is Email"
+      },
+      password:{
+          required: "Password is required",
+      },
+      password_confirmation:{
+          required: "Password Confirm is required",
+          equalTo:"not Correspond"
+      },
+  }
+});
+});
+</script>
     <script>
         selectImage.onchange = evt => {
             preview = document.getElementById('preview');

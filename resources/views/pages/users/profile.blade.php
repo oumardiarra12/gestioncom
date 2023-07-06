@@ -1,6 +1,13 @@
 @extends('layouts.master')
 @section('title', "Détail de l'utilisateur")
-
+@section('style')
+<style>
+    label.error {
+         color: #dc3545;
+         font-size: 14px;
+    }
+</style>
+@endsection
 @section('title_toolbar', "Détail de l'Utilisateur")
 @section('subtitle_toolbar', 'Gestion des Utilisateurs')
 
@@ -12,7 +19,7 @@
 @endsection
 @section('content')
     <div class="card">
-        <form method="POST" action="{{ route('profile.update') }}"  enctype="multipart/form-data">
+        <form method="POST" action="{{ route('profile.update') }}"  enctype="multipart/form-data" id="profiluser">
             @method('put')
             @csrf
         <div class="card-body">
@@ -103,4 +110,73 @@
     </div>
 
     </div>
+@endsection
+@section('script')
+<script>
+    $(document).ready(function() {
+$("#profiluser").validate({
+  rules: {
+    firstname:"required",
+    lastname:"required",
+    telephone:{
+        required:true,
+        digits:true
+    },
+    addresse:"required",
+    category_users_id:"required",
+    email: {
+          required:true,
+          email: true,
+      },
+      password: {
+          required:true,
+
+      },
+      password_confirmation:{
+        required:true,
+        equalTo: "#password"
+      }
+  },
+  messages:{
+    firstname:{
+          required: "First Name is required",
+      },
+      lastname:{
+          required: "Last Name is required",
+      },
+      telephone:{
+          required: "Phone is required",
+          digits: "Phone is numeric",
+      },
+      addresse:{
+          required: "Address is required",
+      },
+      category_users_id:{
+          required: "Category is required",
+      },
+      email:{
+          required: "Email is required",
+          email:"Email is Email"
+      },
+      password:{
+          required: "Password is required",
+      },
+      password_confirmation:{
+          required: "Password Confirm is required",
+          equalTo:"not Correspond"
+      },
+  }
+});
+});
+</script>
+    <script>
+        selectImage.onchange = evt => {
+            preview = document.getElementById('preview');
+            preview.style.display = 'block';
+            const [file] = selectImage.files
+            if (file) {
+                preview.src = URL.createObjectURL(file)
+            }
+        }
+    </script>
 @endsection

@@ -178,9 +178,12 @@
         <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
             aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="profile.html">My Profile</a>
-            <a class="dropdown-item" href="generalsettings.html">Settings</a>
-            <a class="dropdown-item" href="signin.html">Logout</a>
+            <a class="dropdown-item" href="{{route('profile')}}">Mon Profile</a>
+            <a class="dropdown-item" href="{{route('utilisateur.index')}}">Parametres</a>
+            <a class="dropdown-item logout pb-0" href="{{ route('login.logout') }}"><img src="assets/img/icons/log-out.svg"
+                class="me-2" alt="img"> <form  action="{{ route('login.logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>Logout</a>
         </div>
     </div>
 

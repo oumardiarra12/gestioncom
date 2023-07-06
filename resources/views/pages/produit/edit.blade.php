@@ -1,12 +1,19 @@
 @extends('layouts.master')
 @section('title', 'Gestion Produit')
-
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
+    </style>
+@endsection
 @section('title_toolbar', 'Edit Produit')
 @section('subtitle_toolbar', 'Gestion des Produits')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('produits.update',$produit->id) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('produits.update',$produit->id) }}" enctype="multipart/form-data" id="editproductform">
                 @method('put')
                 @csrf
                 @if($errors->any())
@@ -30,10 +37,10 @@
                             </div>
                             <div class="form-group">
                                 <label>Categorie</label>
-                                <select class="js-example-basic-single select2" name="categories_id" >
+                                <select class="js-example-basic-single select2" name="categories_id">
                                     <option>Selectionner</option>
                                     @foreach ($categories as $categorie)
-                                        <option @if($produit->categories_id ==  $categorie->id || old('categories_id') == $categorie->id) selected @endif value="{{ $categorie->id }}">{{ $categorie->name_category }}
+                                        <option @if($produit->categories_id == $categorie->id || old('categories_id') == $categorie->id) selected @endif value="{{ $categorie->id }}">{{ $categorie->name_category }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -63,7 +70,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Unite</label>
-                                <select class="select" name="units_id">
+                                <select class="js-example-basic-single select2" name="units_id">
                                     <option>Selectionner</option>
                                     @foreach ($unites as $unite)
                                         <option @if($produit->units_id ==  $unite->id || old('units_id') == $unite->id) selected @endif value="{{ $unite->id }}">{{ $unite->name_unit }}
@@ -113,6 +120,60 @@
     </div>
 @endsection
 @section('script')
+<script>
+      $(document).ready(function() {
+$("#editproductform").validate({
+    rules: {
+        name_product: "required",
+        price_sale: {
+            required:true,
+            digits: true
+        },
+        price_purchase: {
+            required:true,
+            digits: true
+        },
+        stock_min:{
+            required:true,
+            digits: true
+        },
+        category_id: {
+            required:true,
+            digits: true
+        },
+        units_id: {
+            required:true,
+            digits: true
+        },
+    },
+    messages:{
+        name_product:{
+            required: "Product name is required"
+        },
+        price_sale:{
+            required: "Price sale is required",
+            digits: "Price sale is numeric",
+        },
+        price_purchase:{
+            required: "Price purchase is required",
+            digits: "Price purchase is numeric",
+        },
+        stock_min:{
+            required: "Store min is required",
+            digits: "Store min is numeric",
+        },
+        category_id:{
+            required: "Category is required",
+            digits: "Category is numeric",
+        },
+        units_id:{
+            required: "Unite is required",
+            digits: "Unite is numeric",
+        },
+    }
+});
+});
+</script>
     <script>
         selectImage.onchange = evt => {
             preview = document.getElementById('preview');

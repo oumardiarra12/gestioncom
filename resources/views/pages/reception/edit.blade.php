@@ -1,12 +1,20 @@
 @extends('layouts.master')
 @section('title', 'Gestion Reception')
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
 
+    </style>
+@endsection
 @section('title_toolbar', 'Edit Reception')
 @section('subtitle_toolbar', 'Gestion des Receptions')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{route('receptions.update',$reception->id) }}" id="form">
+            <form method="POST" action="{{route('receptions.update',$reception->id) }}" id="editreceptionform">
                 @method('put')
                 @csrf
                 @if ($errors->any())
@@ -53,7 +61,7 @@
                                         <td class="productimgname">
                                             <div class="form-group">
                                                 <div class="col-md-10">
-                                                    <select class="form-control ProductName products_id" name="products_id[]" data-placeholder="Choisir un produit"  @error("products_id") is-invalid @enderror>
+                                                    <select class="form-control ProductName products_id" name="products_id[]" data-placeholder="Choisir un produit"  @error("products_id") is-invalid @enderror readonly>
                                                         <option selected="selected">-----</option>
                                                         @foreach ($products as $product)
                                                             <option value="{{ $product->id }}" @if($lignereception->products_id ==  $product->id || old('products_id') == $product->id) selected @endif data-price_line_purchase_order="{{$product->price_purchase}}">
@@ -66,7 +74,7 @@
                                         <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number" value="{{$lignereception->qty_line_reception}}"  name="qty_line_reception[]" class="form-control qty_line_reception"  @error("qty_line_reception") is-invalid @enderror>
+                                                    <input type="number" value="{{$lignereception->qty_line_reception}}"  name="qty_line_reception[]" class="form-control qty_line_reception"  @error("qty_line_reception") is-invalid @enderror readonly>
                                                 </div>
                                             </div>
                                         </td>
@@ -80,14 +88,14 @@
                                         <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number" value="{{$lignereception->price_line_reception}}"  class="form-control price_line_reception" name="price_line_reception[]" @error("price_line_reception") is-invalid @enderror >
+                                                    <input type="number" value="{{$lignereception->price_line_reception}}"  class="form-control price_line_reception" name="price_line_reception[]" @error("price_line_reception") is-invalid @enderror readonly>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number" value="{{$lignereception->subtotal_line_reception}}"  class="form-control subtotal_line_reception" name="subtotal_line_reception[]" @error("subtotal_line_reception") is-invalid @enderror >
+                                                    <input type="number" value="{{$lignereception->subtotal_line_reception}}"  class="form-control subtotal_line_reception" name="subtotal_line_reception[]" @error("subtotal_line_reception") is-invalid @enderror readonly>
                                                 </div>
                                             </div>
                                         </td>
@@ -133,6 +141,38 @@
     </div>
 @endsection
 @section('script')
+<script>
+    $(document).ready(function() {
+        $("#editreceptionform").validate({
+             ignore: [],
+            rules: {
+                "qty_recu_line_reception[]": {
+                    required: true,
+                    digits: true
+                },
+
+
+            },
+            messages: {
+
+                "qty_recu_line_reception[]":{
+                    required: "Qty is required",
+                    digits: "Qty is must numeric"
+                },
+
+            },
+            // errorPlacement:function(error,element){
+            //     if(element.attr("name")=="products_id[]"){
+            //         $('#message_error').empty();error.appendTo('#message_error')
+            //     }else{
+            //         error.insertAfter(element)
+            //     }
+            // }
+
+        });
+
+    });
+</script>
     <script>
     $(document).ready(function() {
         $('.products_id').select2({
@@ -182,7 +222,7 @@
                                                     <div class="row">
                                                         <div class="col-lg-10 col-sm-10 col-10">
                                                             <div class="col-md-10">
-                                                                <select class="form-control ProductName products_id" name="products_id[]" data-placeholder="Choisir un produit"  @error("products_id") is-invalid @enderror>
+                                                                <select class="form-control ProductName products_id" name="products_id[]" data-placeholder="Choisir un produit"  @error("products_id") is-invalid @enderror readonly>
                                                                 <option selected="selected">-----</option>
                                                                 @foreach ($products as $product)
                                                                     <option  @if($lignereception->products_id ==  $product->id || old('products_id') == $product->id) selected @endif value="{{ $product->id }}" data-price_line_purchase_order="{{$product->price_purchase}}">
@@ -197,7 +237,7 @@
                                             <td>
                                                 <div class="form-group row">
                                                     <div class="col-md-10">
-                                                        <input type="number" value="{{$lignereception->qty_line_reception}}"  name="qty_line_reception[]" class="form-control qty_line_reception"  @error("qty_line_reception") is-invalid @enderror>
+                                                        <input type="number" value="{{$lignereception->qty_line_reception}}"  name="qty_line_reception[]" class="form-control qty_line_reception"  @error("qty_line_reception") is-invalid @enderror readonly>
                                                     </div>
                                                 </div>
                                             </td>
@@ -211,14 +251,14 @@
                                             <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number" value="{{$lignereception->price_line_reception}}"  class="form-control price_line_reception" name="price_line_reception[]" @error("price_line_reception") is-invalid @enderror >
+                                                    <input type="number" value="{{$lignereception->price_line_reception}}" id="price"  class="form-control price_line_reception" name="price_line_reception[]" @error("price_line_reception") is-invalid @enderror readonly>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number" value="{{$lignereception->subtotal_line_reception}}"  class="form-control subtotal_line_reception" name="subtotal_line_reception[]" @error("subtotal_line_reception") is-invalid @enderror >
+                                                    <input type="number" value="{{$lignereception->subtotal_line_reception}}" id="subtotal"  class="form-control subtotal_line_reception" name="subtotal_line_reception[]" @error("subtotal_line_reception") is-invalid @enderror readonly>
                                                 </div>
                                             </div>
                                         </td>
@@ -228,6 +268,8 @@
                                             </td>
                                         </tr>`
             $('tbody').append(addline);
+            var i = 1;
+            $('#qty').attr('id', i++);
         };
 
         $('tbody').delegate('.remove','click',function(){

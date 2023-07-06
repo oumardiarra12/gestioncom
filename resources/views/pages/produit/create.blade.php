@@ -1,12 +1,19 @@
 @extends('layouts.master')
 @section('title', 'Gestion Produit')
-
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
+    </style>
+@endsection
 @section('title_toolbar', 'Nouveau Produit')
 @section('subtitle_toolbar', 'Gestion des Produits')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('produits.store') }}" enctype="multipart/form-data" id="form">
+            <form method="POST" action="{{ route('produits.store') }}" enctype="multipart/form-data" id="productform">
                 @csrf
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -106,12 +113,60 @@
     </div>
 @endsection
 @section('script')
-{{-- <script>
-    document.getElementById("barcode").addEventListener("onchange", () => {
-    let text = document.getElementById("textcodebar").value;
-    JsBarcode("#barcode", text);
+<script>
+      $(document).ready(function() {
+$("#productform").validate({
+    rules: {
+        name_product: "required",
+        price_sale: {
+            required:true,
+            digits: true
+        },
+        price_purchase: {
+            required:true,
+            digits: true
+        },
+        stock_min:{
+            required:true,
+            digits: true
+        },
+        category_id: {
+            required:true,
+            digits: true
+        },
+        units_id: {
+            required:true,
+            digits: true
+        },
+    },
+    messages:{
+        name_product:{
+            required: "Product name is required"
+        },
+        price_sale:{
+            required: "Price sale is required",
+            digits: "Price sale is numeric",
+        },
+        price_purchase:{
+            required: "Price purchase is required",
+            digits: "Price purchase is numeric",
+        },
+        stock_min:{
+            required: "Store min is required",
+            digits: "Store min is numeric",
+        },
+        category_id:{
+            required: "Category is required",
+            digits: "Category is numeric",
+        },
+        units_id:{
+            required: "Unite is required",
+            digits: "Unite is numeric",
+        },
+    }
 });
-</script> --}}
+});
+</script>
     <script>
         selectImage.onchange = evt => {
             preview = document.getElementById('preview');

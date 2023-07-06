@@ -1,6 +1,13 @@
 @extends('layouts.master')
 @section('title', 'Gestion Client')
-
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
+    </style>
+@endsection
 @section('title_toolbar', 'Import Client')
 @section('subtitle_toolbar', 'Gestion des Clients')
 @section('btn_add_item')
@@ -16,7 +23,7 @@
                 <h4>Le champ doit être au format csv</h4>
             </div>
             <div class="row">
-                <form method="POST" action="{{ route('clients.storeclient') }}" enctype="multipart/form-data" id="form">
+                <form method="POST" action="{{ route('clients.storeclient') }}" enctype="multipart/form-data" id="importcustomerform">
                 <div class="col-lg-12">
                         @csrf
                         @if ($errors->any())
@@ -79,4 +86,21 @@
         </form>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $("#importcustomerform").validate({
+                rules: {
+                    importfournisseur: "required",
+                },
+                messages: {
+                    importfournisseur: {
+                        required: "import file is required"
+                    }
+
+                }
+            });
+        });
+    </script>
 @endsection

@@ -4,14 +4,14 @@
 @section('title_toolbar', 'La liste des Receptions')
 @section('subtitle_toolbar', 'Gestion des Receptions')
 
-@section('btn_add_item')
+{{-- @section('btn_add_item')
     <div class="page-btn">
         <a href="{{ route('receptions.createreception') }}" class="btn btn-added">
             <img src="assets/img/icons/plus.svg" alt="img"class="me-1">
             Ajouter un Reception Direct
         </a>
     </div>
-@endsection
+@endsection --}}
 
 @section('content')
     <div class="card">

@@ -13,6 +13,7 @@
                             <h4>Categories</h4>
                             <h6>Gestion de Vente</h6>
                         </div>
+                        <h3>Bienvenu {{Auth::user()->firstname}} {{Auth::user()->lastname}}</h3>
                     </div>
                     <ul class="tabs owl-carousel owl-theme owl-product  border-0 ">
                         @foreach ($categories as $categorie)

@@ -1,12 +1,20 @@
 @extends('layouts.master')
 @section('title', 'Gestion Reception')
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
 
+    </style>
+@endsection
 @section('title_toolbar', 'Nouveau Reception Direct sans Commande')
 @section('subtitle_toolbar', 'Gestion des Receptions')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{route('receptions.store') }}" id="form">
+            <form method="POST" action="{{route('receptions.store') }}" id="receptionform">
                 @csrf
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -132,6 +140,38 @@
     </div>
 @endsection
 @section('script')
+<script>
+    $(document).ready(function() {
+        $("#receptionform").validate({
+             ignore: [],
+            rules: {
+                "qty_recu_line_reception[]": {
+                    required: true,
+                    digits: true
+                },
+
+
+            },
+            messages: {
+
+                "qty_recu_line_reception[]":{
+                    required: "Qty is required",
+                    digits: "Qty is must numeric"
+                },
+
+            },
+            // errorPlacement:function(error,element){
+            //     if(element.attr("name")=="products_id[]"){
+            //         $('#message_error').empty();error.appendTo('#message_error')
+            //     }else{
+            //         error.insertAfter(element)
+            //     }
+            // }
+
+        });
+
+    });
+</script>
     <script>
     $(document).ready(function() {
 
@@ -202,21 +242,21 @@
                                             <td>
                                                 <div class="form-group row">
                                                     <div class="col-md-10">
-                                                        <input type="number"  class="form-control qty_recu_line_reception" name="qty_recu_line_reception[]" @error("qty_recu_line_reception") is-invalid @enderror >
+                                                        <input type="number"  class="form-control qty_recu_line_reception" id="qty" name="qty_recu_line_reception[]" @error("qty_recu_line_reception") is-invalid @enderror >
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number"  class="form-control price_line_reception" name="price_line_reception[]" @error("price_line_reception") is-invalid @enderror >
+                                                    <input type="number"  class="form-control price_line_reception" id="price" name="price_line_reception[]" @error("price_line_reception") is-invalid @enderror >
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number"  class="form-control subtotal_line_reception" name="subtotal_line_reception[]" @error("subtotal_line_reception") is-invalid @enderror >
+                                                    <input type="number"  class="form-control subtotal_line_reception" id="subtotal" name="subtotal_line_reception[]" @error("subtotal_line_reception") is-invalid @enderror >
                                                 </div>
                                             </div>
                                         </td>
@@ -226,9 +266,8 @@
                                             </td>
                                         </tr>`
             $('tbody').append(addline);
-            var newSelectId = 'select' + Date.now();
-            //select 2
-            $('#elementrecep').attr('id', newSelectId).select2({tags: true});
+            var i = 1;
+            $('#qty').attr('id', i++);
         };
 
         $('tbody').delegate('.remove','click',function(){

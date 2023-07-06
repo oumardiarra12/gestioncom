@@ -1,12 +1,20 @@
 @extends('layouts.master')
 @section('title', 'Gestion Commande Achat')
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
 
+    </style>
+@endsection
 @section('title_toolbar', 'Nouveau Commande Achats')
 @section('subtitle_toolbar', 'Gestion des Commande Achats')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('commandeachats.store') }}" id="form">
+            <form method="POST" action="{{ route('commandeachats.store') }}" id="commandeachatform">
                 @csrf
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -158,6 +166,67 @@
     </div>
 @endsection
 @section('script')
+<script>
+    $(document).ready(function() {
+        $("#commandeachatform").validate({
+             ignore: [],
+            rules: {
+                // total_purchase_order: {
+                //     required: true,
+                //     digits: true
+                // },
+                suppliers_id: "required",
+                "products_id[]": {
+                    required: true,
+                },
+                "qty_line_purchase_order[]": {
+                    required: true,
+                    digits: true
+                },
+                "price_line_purchase_order[]": {
+                    required: true,
+                    digits: true
+                },
+                // "subtotal_line_purchase_order[]": {
+                //     required: true,
+                //     digits: true
+                // },
+
+            },
+            messages: {
+                // total_purchase_order: {
+                //     required: "Total is required",
+                //     digits: "Total is must numeric"
+                // },
+                suppliers_id: {
+                    required: "Supplier is required"
+                },
+                "qty_line_purchase_order[]":{
+                    required: "Qty is required",
+                    digits: "Qty is must numeric"
+                },
+                "price_line_purchase_order[]":{
+                    required: "Price is required",
+                    digits: "Price is must numeric"
+                },
+                // "subtotal_line_purchase_order[]":{
+                //     required: "Sous Total is required",
+                //     digits: "Sous Total is must numeric"
+                // },
+
+            },
+            // errorPlacement:function(error,element){
+            //     if(element.attr("name")=="products_id[]"){
+            //         $('#message_error').empty();error.appendTo('#message_error')
+            //     }else{
+            //         error.insertAfter(element)
+            //     }
+            // }
+
+        });
+
+    });
+</script>
     <script>
         $(document).ready(function() {
 
@@ -220,21 +289,21 @@
                                             <td>
                                                 <div class="form-group row">
                                                     <div class="col-md-10">
-                                                        <input type="number" name="qty_line_purchase_order[]" class="form-control qty_line_purchase_order"  @error('qty_line_purchase_order') is-invalid @enderror>
+                                                        <input type="number" name="qty_line_purchase_order[]" class="form-control qty_line_purchase_order" id="qty"  @error('qty_line_purchase_order') is-invalid @enderror>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group row">
                                                     <div class="col-md-10">
-                                                        <input type="number" name="price_line_purchase_order[]" class="form-control price_line_purchase_order"  @error('price_line_purchase_order') is-invalid @enderror>
+                                                        <input type="number" name="price_line_purchase_order[]" class="form-control price_line_purchase_order" id="price"  @error('price_line_purchase_order') is-invalid @enderror>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group row">
                                                     <div class="col-md-10">
-                                                        <input type="number" class="form-control subtotal_line_purchase_order" readonly name="subtotal_line_purchase_order[]" @error('subtotal_line_purchase_order') is-invalid @enderror>
+                                                        <input type="number" class="form-control subtotal_line_purchase_order" readonly name="subtotal_line_purchase_order[]" id="subtotal" @error('subtotal_line_purchase_order') is-invalid @enderror>
                                                     </div>
                                                 </div>
                                             </td>
@@ -246,8 +315,12 @@
 
                 $('tbody').append(addline);
                 var newSelectId = 'select' + Date.now();
+            var i = 1
             //select 2
             $('#element').attr('id', newSelectId).select2({tags: true});
+            $('#qty').attr('id', i++);
+            $('#price').attr('id', i++);
+            $('#subtotal').attr('id', i++);
             };
 
 

@@ -1,12 +1,19 @@
 @extends('layouts.master')
 @section('title', 'Gestion Type Depense')
-
+@section('style')
+<style>
+    label.error {
+         color: #dc3545;
+         font-size: 14px;
+    }
+</style>
+@endsection
 @section('title_toolbar', 'Nouveau Type Depense')
 @section('subtitle_toolbar', 'Gestion des Types Depenses')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST"  action="{{ route('typedepenses.store') }}" id="form">
+            <form method="POST"  action="{{ route('typedepenses.store') }}" id="typedepenseform">
                 @csrf
                 @if($errors->any())
                 <div class="alert alert-danger">
@@ -40,4 +47,25 @@
         </div>
     </div>
 @endsection
-
+@section('script')
+<script>
+$(document).ready(function() {
+            $("#typedepenseform").validate({
+                rules: {
+                    name_expense_types: "required",
+                    // description_expense_types: {
+                    //     string:'/^[A-Za-z\d]+$/i'
+                    // },
+                },
+                messages:{
+                    name_expense_types:{
+                        required: "Depense Type is required"
+                    },
+                    // description_expense_types:{
+                    //     string: "Depense Type is string"
+                    // },
+                }
+            });
+        });
+</script>
+@endsection

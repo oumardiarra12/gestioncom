@@ -1,12 +1,20 @@
 @extends('layouts.master')
 @section('title', 'Gestion Livraison')
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
 
+    </style>
+@endsection
 @section('title_toolbar', 'Nouveau Livraison')
 @section('subtitle_toolbar', 'Gestion des Livraisons')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{route('commandeventes.deliverystore', $customerorder->id) }}" id="form">
+            <form method="POST" action="{{route('commandeventes.deliverystore', $customerorder->id) }}" id="deliveryform">
                 @csrf
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -103,14 +111,14 @@
                                         <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number" value="{{$lingecustomer->price_line_customer_order}}"  class="form-control price_line_deliverie" name="price_line_deliverie[]" @error("price_line_deliverie") is-invalid @enderror >
+                                                    <input type="number" value="{{$lingecustomer->price_line_customer_order}}"  class="form-control price_line_deliverie" name="price_line_deliverie[]" @error("price_line_deliverie") is-invalid @enderror readonly >
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number" value="{{$lingecustomer->subtotal_line_customer_order}}"  class="form-control subtotal_line_deliverie" name="subtotal_line_deliverie[]" @error("subtotal_line_deliverie") is-invalid @enderror >
+                                                    <input type="number" value="{{$lingecustomer->subtotal_line_customer_order}}"  class="form-control subtotal_line_deliverie" name="subtotal_line_deliverie[]" @error("subtotal_line_deliverie") is-invalid @enderror readonly >
                                                 </div>
                                             </div>
                                         </td>
@@ -156,6 +164,38 @@
     </div>
 @endsection
 @section('script')
+<script>
+    $(document).ready(function() {
+        $("#deliveryform").validate({
+             ignore: [],
+            rules: {
+                "qty_line_order[]": {
+                    required: true,
+                    digits: true
+                },
+
+
+            },
+            messages: {
+
+                "qty_line_order[]":{
+                    required: "Qty is required",
+                    digits: "Qty is must numeric"
+                },
+
+            },
+            // errorPlacement:function(error,element){
+            //     if(element.attr("name")=="products_id[]"){
+            //         $('#message_error').empty();error.appendTo('#message_error')
+            //     }else{
+            //         error.insertAfter(element)
+            //     }
+            // }
+
+        });
+
+    });
+</script>
     <script>
     $(document).ready(function() {
 
@@ -224,21 +264,21 @@
                                         <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number" value="{{$lingecustomer->qty_line_customer_order}}" class="form-control qty_line_order" name="qty_line_order[]" @error("qty_line_order") is-invalid @enderror >
+                                                    <input type="number" value="{{$lingecustomer->qty_line_customer_order}}" class="form-control qty_line_order" id="qty" name="qty_line_order[]" @error("qty_line_order") is-invalid @enderror >
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number" value="{{$lingecustomer->price_line_customer_order}}"  class="form-control price_line_deliverie" name="price_line_deliverie[]" @error("price_line_deliverie") is-invalid @enderror >
+                                                    <input type="number" value="{{$lingecustomer->price_line_customer_order}}"  class="form-control price_line_deliverie" name="price_line_deliverie[]" @error("price_line_deliverie") is-invalid @enderror readonly >
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group row">
                                                 <div class="col-md-10">
-                                                    <input type="number" value="{{$lingecustomer->subtotal_line_customer_order}}"  class="form-control subtotal_line_deliverie" name="subtotal_line_deliverie[]" @error("subtotal_line_deliverie") is-invalid @enderror >
+                                                    <input type="number" value="{{$lingecustomer->subtotal_line_customer_order}}"  class="form-control subtotal_line_deliverie" name="subtotal_line_deliverie[]" @error("subtotal_line_deliverie") is-invalid @enderror readonly>
                                                 </div>
                                             </div>
                                         </td>
@@ -248,6 +288,8 @@
                                         // </td>
                                     </tr>`
             $('tbody').append(addline);
+            var i = 1;
+            $('#qty').attr('id', i++);
         };
 
         $('tbody').delegate('.remove','click',function(){

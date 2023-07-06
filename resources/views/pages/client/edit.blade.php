@@ -1,12 +1,19 @@
 @extends('layouts.master')
 @section('title', 'Gestion Client')
-
+@section('style')
+<style>
+    label.error {
+         color: #dc3545;
+         font-size: 14px;
+    }
+</style>
+@endsection
 @section('title_toolbar', 'Edit Client')
 @section('subtitle_toolbar', 'Gestion des Clients')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('clients.update', $customer->id) }}">
+            <form method="POST" action="{{ route('clients.update', $customer->id) }}" id="editcustomerform">
                 @method('put')
                 @csrf
                 @if($errors->any())
@@ -54,4 +61,36 @@
 
         </div>
     </div>
+@endsection
+@section('script')
+<script>
+$(document).ready(function() {
+            $("#editcustomerform").validate({
+                rules: {
+                    firstname_customer: "required",
+                    lastname_customer: "required",
+                    tel_customer: "required",
+                    email_customer: "required",
+                    address_customer: "required",
+                },
+                messages:{
+                    firstname_customer:{
+                        required: "First name is required"
+                    },
+                    lastname_customer:{
+                        required: "Last name is required"
+                    },
+                    tel_customer:{
+                        required: "Phone is required"
+                    },
+                    email_customer:{
+                        required: "Email is required"
+                    },
+                    address_customer:{
+                        required: "Address is required"
+                    },
+                }
+            });
+        });
+</script>
 @endsection

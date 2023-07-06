@@ -1,12 +1,19 @@
 @extends('layouts.master')
 @section('title', 'Gestion Categorie')
-
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
+    </style>
+@endsection
 @section('title_toolbar', 'Edit Categorie')
 @section('subtitle_toolbar', 'Gestion des Categories')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('categories.update',$categorie->id) }}">
+            <form method="POST" action="{{ route('categories.update',$categorie->id) }}" id="editcategoryform">
                 @method('put')
                 @csrf
                 @if($errors->any())
@@ -40,4 +47,21 @@
 
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $("#editcategoryform").validate({
+                rules: {
+                    name_category: "required",
+                },
+                messages: {
+                    name_category: {
+                        required: "Category name is required"
+                    }
+
+                }
+            });
+        });
+    </script>
 @endsection

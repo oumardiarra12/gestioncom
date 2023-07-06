@@ -1,142 +1,179 @@
 @extends('layouts.master')
 @section('title', 'Gestion Commande Vente')
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
 
-@section('title_toolbar', 'Edit Commande  Vente')
-@section('subtitle_toolbar', 'Gestion des Commande  Ventes')
+    </style>
+@endsection
+@section('title_toolbar', 'Edit Commande Vente')
+@section('subtitle_toolbar', 'Gestion des Commande Ventes')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('commandeventes.update', $customerorder->id) }}">
+            <form method="POST" action="{{ route('commandeventes.update', $customerorder->id) }}" id="editcustomerorderform">
                 @method('put')
                 @csrf
-                @if($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label>Client</label>
-                                <div class="row">
-                                    <div class="col-lg-6 col-sm-6 col-6">
-                                        <select class="js-example-basic-single select2" name="suppliers_id">
-                                            @foreach ($customers as $customer)
-                                                <option @if($customerorder->customers_id ==  $customer->id || old('customers_id') == $customer->id) selected @endif  value="{{ $customer->id }}">{{ $customer->firstname_customer }} {{ $customer->lastname_customer }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label>Client</label>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-sm-6 col-6">
+                                            <select class="js-example-basic-single select2" name="suppliers_id">
+                                                @foreach ($customers as $customer)
+                                                    <option @if ($customerorder->customers_id == $customer->id || old('customers_id') == $customer->id) selected @endif
+                                                        value="{{ $customer->id }}">{{ $customer->firstname_customer }}
+                                                        {{ $customer->lastname_customer }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
+
                                 </div>
-
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-6">
+                                <div class="form-group">
+                                    <label>Reference</label>
+                                    <input type="text" class="form-control" name="num_customer_order"
+                                        value="{{ $customerorder->num_customer_order }}" readonly />
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-sm-6 col-12">
+                                <div class="form-group d-flex flex-row-reverse">
+                                    <button type="button" class="btn btn-rounded btn-info addline"><img
+                                            src="assets/img/icons/plus1.svg" alt="img"></button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-sm-6 col-6">
-                            <div class="form-group">
-                                <label>Reference</label>
-                               <input type="text" class="form-control" name="num_customer_order" value="{{$customerorder->num_customer_order}}" readonly/>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 col-sm-6 col-12">
-                            <div class="form-group d-flex flex-row-reverse">
-                                <button type="button" class="btn btn-rounded btn-info addline"><img src="assets/img/icons/plus1.svg" alt="img"></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Nom Produit</th>
-                                        <th>Qte</th>
-                                        <th>PrixVente </th>
-                                        <th>Sous Total </th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($lingecustomerorder as $lingecustomer)
-                                    <tr>
-                                        <td class="productimgname">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-lg-10 col-sm-10 col-10">
-                                                        <select class="form-control ProductName products_id" name="products_id[]" data-placeholder="Choisir un produit"  @error("products_id") is-invalid @enderror>
-                                                            <option selected="selected">-----</option>
-                                                            @foreach ($products as $product)
-                                                                <option @if($lingecustomer->products_id ==  $product->id || old('products_id') == $product->id) selected @endif value="{{ $product->id }}"  data-price_line_customer_order="{{$product->price_sale}}">
-                                                                    {{ $product->name_product }}</option>
-                                                            @endforeach
-                                                        </select>
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom Produit</th>
+                                            <th>Qte</th>
+                                            <th>PrixVente </th>
+                                            <th>Sous Total </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($lingecustomerorder as $lingecustomer)
+                                            <tr>
+                                                <td class="productimgname">
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-lg-10 col-sm-10 col-10">
+                                                                <select class="form-control ProductName products_id"
+                                                                    name="products_id[]"
+                                                                    data-placeholder="Choisir un produit"
+                                                                    @error('products_id') is-invalid @enderror>
+                                                                    <option selected="selected">-----</option>
+                                                                    @foreach ($products as $product)
+                                                                        <option
+                                                                            @if ($lingecustomer->products_id == $product->id || old('products_id') == $product->id) selected @endif
+                                                                            value="{{ $product->id }}"
+                                                                            data-price_line_customer_order="{{ $product->price_sale }}">
+                                                                            {{ $product->name_product }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group row">
-                                                <div class="col-md-10">
-                                                    <input type="number" value="{{$lingecustomer->qty_line_customer_order}}" value="{{$customerorder->qty_line_customer_order}}" name="qty_line_customer_order[]" class="form-control qty_line_customer_order"  @error("qty_line_customer_order") is-invalid @enderror>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group row">
-                                                <div class="col-md-10">
-                                                    <input type="number" value="{{$lingecustomer->price_line_customer_order}}" value="{{$lingecustomer->price_line_customer_order}}" name="price_line_customer_order[]" class="form-control price_line_customer_order"  @error("price_line_customer_order") is-invalid @enderror>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group row">
-                                                <div class="col-md-10">
-                                                    <input type="number" value="{{$lingecustomer->subtotal_line_customer_order}}" value="{{$lingecustomer->subtotal_line_customer_order}}" class="form-control subtotal_line_customer_order" name="subtotal_line_customer_order[]" @error("subtotal_line_customer_order") is-invalid @enderror readonly>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <a class="delete-set remove"><img src="assets/img/icons/delete.svg"
-                                                    alt="svg"></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-10">
+                                                            <input type="number"
+                                                                value="{{ $lingecustomer->qty_line_customer_order }}"
+                                                                value="{{ $customerorder->qty_line_customer_order }}"
+                                                                name="qty_line_customer_order[]"
+                                                                class="form-control qty_line_customer_order"
+                                                                @error('qty_line_customer_order') is-invalid @enderror>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-10">
+                                                            <input type="number"
+                                                                value="{{ $lingecustomer->price_line_customer_order }}"
+                                                                value="{{ $lingecustomer->price_line_customer_order }}"
+                                                                name="price_line_customer_order[]"
+                                                                class="form-control price_line_customer_order"
+                                                                @error('price_line_customer_order') is-invalid @enderror>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-10">
+                                                            <input type="number"
+                                                                value="{{ $lingecustomer->subtotal_line_customer_order }}"
+                                                                value="{{ $lingecustomer->subtotal_line_customer_order }}"
+                                                                class="form-control subtotal_line_customer_order"
+                                                                name="subtotal_line_customer_order[]"
+                                                                @error('subtotal_line_customer_order') is-invalid @enderror
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a class="delete-set remove"><img src="assets/img/icons/delete.svg"
+                                                            alt="svg"></a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 float-md-right">
-                            <div class="total-order">
-                                <ul>
-                                    <li class="total">
-                                        <h4>Total</h4>
-                                        <input type="number" value="{{$customerorder->total_customer_order}}"class="form-control total_customer_order" name="total_customer_order" @error("total_customer_order") is-invalid @enderror readonly>
-                                    </li>
-                                </ul>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea class="form-control" name="description_customer_order">{{$customerorder->description_customer_order}}</textarea>
+                        <div class="row">
+                            <div class="col-lg-12 float-md-right">
+                                <div class="total-order">
+                                    <ul>
+                                        <li class="total">
+                                            <h4>Total</h4>
+                                            <input type="number"
+                                                value="{{ $customerorder->total_customer_order }}"class="form-control total_customer_order"
+                                                name="total_customer_order"
+                                                @error('total_customer_order') is-invalid @enderror readonly>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
-                            <button class="btn btn-submit me-2">Submit</button>
-                            <a href="{{route('commandeventes.index')}}" class="btn btn-cancel">Cancel</a>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea class="form-control" name="description_customer_order">{{ $customerorder->description_customer_order }}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <button class="btn btn-submit me-2">Submit</button>
+                                <a href="{{ route('commandeventes.index') }}" class="btn btn-cancel">Cancel</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </form>
 
         </div>
@@ -144,8 +181,65 @@
 @endsection
 @section('script')
     <script>
-    $(document).ready(function() {
-        $('tbody').delegate('.ProductName', 'change', function() {
+        $(document).ready(function() {
+            $("#editcustomerorderform").validate({
+                ignore: [],
+                rules: {
+                    // total_customer_order: {
+                    //     required: true,
+                    //     digits: true
+                    // },
+                    customers_id: "required",
+                    "products_id[]": {
+                        required: true,
+                    },
+                    "qty_line_customer_order[]": {
+                        required: true,
+                        digits: true
+                    },
+                    "price_line_customer_order[]": {
+                        required: true,
+                        digits: true
+                    },
+                    // "subtotal_line_customer_order[]": {
+                    //     required: true,
+                    //     digits: true
+                    // },
+
+                },
+                messages: {
+                    // total_customer_order: {
+                    //     required: "Total is required",
+                    //     digits: "Total is must numeric"
+                    // },
+                    customers_id: {
+                        required: "Customer is required"
+                    },
+                    "qty_line_customer_order[]": {
+                        required: "Qty is required",
+                        digits: "Qty is must numeric"
+                    },
+                    "price_line_customer_order[]": {
+                        required: "Price is required",
+                        digits: "Price is must numeric"
+                    }
+
+                },
+                // errorPlacement:function(error,element){
+                //     if(element.attr("name")=="products_id[]"){
+                //         $('#message_error').empty();error.appendTo('#message_error')
+                //     }else{
+                //         error.insertAfter(element)
+                //     }
+                // }
+
+            });
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('tbody').delegate('.ProductName', 'change', function() {
                 var tr = $(this).parent().parent().parent().parent().parent();
                 tr.find('.qty_line_customer_order').focus();
             });
@@ -193,7 +287,7 @@
                                                             <select class="js-example-basic-single select2 form-control ProductName products_id" id="elementvente"  name="products_id[]" data-placeholder="Choisir un produit"  @error('products_id') is-invalid @enderror>
                                                                 <option selected="true" disabled="true">Choisir Produit</option>
                                                                 @foreach ($products as $product)
-                                                                    <option @if($lingecustomer->products_id ==  $product->id || old('products_id') == $product->id) selected @endif value="{{ $product->id }}" data-price_line_customer_order="{{ $product->price_sale }}">
+                                                                    <option @if ($lingecustomer->products_id == $product->id || old('products_id') == $product->id) selected @endif value="{{ $product->id }}" data-price_line_customer_order="{{ $product->price_sale }}">
                                                                         {{ $product->name_product }}</option>
                                                                 @endforeach
                                                             </select>
@@ -204,8 +298,8 @@
                                             <td>
                                                 <div class="form-group row">
                                                     <div class="col-md-10">
-                                                        <input type="number" name="qty_line_customer_order[]"
-                                                            class="form-control qty_line_customer_order" value="{{$lingecustomer->qty_line_customer_order}}"
+                                                        <input type="number" name="qty_line_customer_order[]" id="qty"
+                                                            class="form-control qty_line_customer_order" value="{{ $lingecustomer->qty_line_customer_order }}"
                                                             @error('qty_line_customer_order') is-invalid @enderror>
                                                     </div>
                                                 </div>
@@ -213,7 +307,7 @@
                                             <td>
                                                 <div class="form-group row">
                                                     <div class="col-md-10">
-                                                        <input type="number" name="price_line_customer_order[]" value="{{$lingecustomer->price_line_customer_order}}"
+                                                        <input type="number" name="price_line_customer_order[]" id="price" value="{{ $lingecustomer->price_line_customer_order }}"
                                                             class="form-control price_line_customer_order"
                                                             @error('price_line_customer_order') is-invalid @enderror>
                                                     </div>
@@ -224,7 +318,7 @@
                                                     <div class="col-md-10">
                                                         <input type="number"
                                                             class="form-control subtotal_line_customer_order"
-                                                            name="subtotal_line_customer_order[]" value="{{$lingecustomer->subtotal_line_customer_order}}"
+                                                            name="subtotal_line_customer_order[]" value="{{ $lingecustomer->subtotal_line_customer_order }}"
                                                             @error('subtotal_line_customer_order') is-invalid @enderror
                                                             readonly>
                                                     </div>
@@ -237,9 +331,14 @@
                                         </tr>`
 
                 $('tbody').append(addline);
+                var i = 1
                 var newSelectId = 'select' + Date.now();
-            //select 2
-            $('#elementvente').attr('id', newSelectId).select2({tags: true});
+                //select 2
+                $('#elementvente').attr('id', newSelectId).select2({
+                    tags: true
+                });
+                $('#qty').attr('id', i++);
+                $('#price').attr('id', i++);
             };
 
 

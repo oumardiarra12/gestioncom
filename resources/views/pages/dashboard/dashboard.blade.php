@@ -289,7 +289,9 @@
                     "Oct",
                 ],
             },
-            yaxis: { title: { text: "FCFA (cent)" } },
+            yaxis: {  min: 100,
+                max: 1000000 },
+
             fill: { opacity: 1 },
             tooltip: {
                 y: {

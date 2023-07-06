@@ -1,12 +1,19 @@
 @extends('layouts.master')
 @section('title', 'Gestion Utilisateur')
-
+@section('style')
+<style>
+    label.error {
+         color: #dc3545;
+         font-size: 14px;
+    }
+</style>
+@endsection
 @section('title_toolbar', 'Nouveau Utilisateur')
 @section('subtitle_toolbar', 'Gestion des Utilisateurs')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('utilisateur.store') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('utilisateur.store') }}" enctype="multipart/form-data" id="userform">
                 @csrf
                 @if($errors->any())
                 <div class="alert alert-danger">
@@ -29,8 +36,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Categorie</label>
-                                    <select class="select" name="category_users_id">
-                                        <option>Selectionner</option>
+                                    <select class="js-example-basic-single select2" name="category_users_id">
+                                        <option value="">Selectionner</option>
                                         @foreach ($categories as $categorie)
                                             <option value="{{ $categorie->id }}">{{ $categorie->name_category_users }}
                                             </option>
@@ -40,7 +47,7 @@
                                 <div class="form-group">
                                     <label>Mot de Passe</label>
                                     <div class="pass-group">
-                                        <input type="password" class="pass-input" name="password">
+                                        <input type="password" class="pass-input" name="password" id="password">
                                         <span class="fas toggle-password fa-eye-slash"></span>
                                     </div>
                                 </div>
@@ -66,7 +73,7 @@
                                 <div class="form-group">
                                     <label>Confirme Mot de Passe</label>
                                     <div class="pass-group">
-                                        <input type="password"  name="password_confirmation">
+                                        <input type="password"  name="password_confirmation" id="confirmpassword">
                                         <span class="fas toggle-passworda fa-eye-slash"></span>
                                     </div>
                                 </div>
@@ -98,6 +105,61 @@
 
 @endsection
 @section('script')
+<script>
+    $(document).ready(function() {
+$("#userform").validate({
+  rules: {
+    firstname:"required",
+    lastname:"required",
+    telephone:"required",
+    addresse:"required",
+    category_users_id:"required",
+    email: {
+          required:true,
+          email: true,
+        //   unique:true
+      },
+      password: {
+          required:true,
+
+      },
+      password_confirmation:{
+        required:true,
+        equalTo: "#password"
+      }
+  },
+  messages:{
+    firstname:{
+          required: "First Name is required",
+      },
+      lastname:{
+          required: "Last Name is required",
+      },
+      telephone:{
+          required: "Phone is required",
+        //   digits: "Phone is numeric",
+      },
+      addresse:{
+          required: "Address is required",
+      },
+      category_users_id:{
+          required: "Category is required",
+      },
+      email:{
+          required: "Email is required",
+          email:"Email is Email"
+      },
+      password:{
+          required: "Password is required",
+      },
+      password_confirmation:{
+          required: "Password Confirm is required",
+          equalTo:"not Correspond"
+      },
+  }
+});
+});
+</script>
     <script>
         selectImage.onchange = evt => {
             preview = document.getElementById('preview');

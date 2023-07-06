@@ -1,14 +1,23 @@
 @extends('layouts.master')
 @section('title', 'Gestion Commande Vente')
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
 
+    </style>
+@endsection
 @section('title_toolbar', 'Nouveau Commande Ventes')
 @section('subtitle_toolbar', 'Gestion des Commande Ventes')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('commandeventes.store') }}">
+            <form method="POST" action="{{ route('commandeventes.store') }}" id="customerorderform">
                 @csrf
                 @if ($errors->any())
+
                     <div class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
@@ -25,9 +34,11 @@
                                     <label>Client</label>
                                     <div class="row">
                                         <div class="col-lg-10 col-sm-10 col-10">
-                                            <select class="js-example-basic-single select2" name="customers_id">
+                                            <select class="js-example-basic-single select2" name="customers_id" required>
+                                                <option selected="true" disabled="true">Choisir Client</option>
                                                 @foreach ($customers as $customer)
-                                                    <option value="{{ $customer->id }}">{{ $customer->firstname_customer }} {{ $customer->lastname_customer }}
+                                                    <option value="{{ $customer->id }}">{{ $customer->firstname_customer }}
+                                                        {{ $customer->lastname_customer }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -73,7 +84,7 @@
                                                                 class="js-example-basic-single select2  ProductName products_id"
                                                                 id="select_id" name="products_id[]"
                                                                 data-placeholder="Choisir un produit" id="elementvente"
-                                                                @error('products_id') is-invalid @enderror>
+                                                                @error('products_id[]') is-invalid @enderror>
                                                                 <option selected="true" disabled="true">choisir Produit
                                                                 </option>
                                                                 @foreach ($products as $product)
@@ -91,7 +102,7 @@
                                                     <div class="col-md-10">
                                                         <input type="number" name="qty_line_customer_order[]"
                                                             class="form-control qty_line_customer_order"
-                                                            @error('qty_line_customer_order') is-invalid @enderror>
+                                                            @error('qty_line_customer_order[]') is-invalid @enderror>
                                                     </div>
                                                 </div>
                                             </td>
@@ -100,7 +111,7 @@
                                                     <div class="col-md-10">
                                                         <input type="number" name="price_line_customer_order[]"
                                                             class="form-control price_line_customer_order"
-                                                            @error('price_line_customer_order') is-invalid @enderror>
+                                                            @error('price_line_customer_order[]') is-invalid @enderror>
                                                     </div>
                                                 </div>
                                             </td>
@@ -110,7 +121,7 @@
                                                         <input type="number"
                                                             class="form-control subtotal_line_customer_order"
                                                             name="subtotal_line_customer_order[]"
-                                                            @error('subtotal_line_customer_order') is-invalid @enderror
+                                                            @error('subtotal_line_customer_order[]') is-invalid @enderror
                                                             readonly>
                                                     </div>
                                                 </div>
@@ -158,6 +169,63 @@
     </div>
 @endsection
 @section('script')
+<script>
+        $(document).ready(function() {
+            $("#customerorderform").validate({
+                 ignore: [],
+                rules: {
+                    // total_customer_order: {
+                    //     required: true,
+                    //     digits: true
+                    // },
+                    customers_id: "required",
+                    "products_id[]": {
+                        required: true,
+                    },
+                    "qty_line_customer_order[]": {
+                        required: true,
+                        digits: true
+                    },
+                    "price_line_customer_order[]": {
+                        required: true,
+                        digits: true
+                    },
+                    // "subtotal_line_customer_order[]": {
+                    //     required: true,
+                    //     digits: true
+                    // },
+
+                },
+                messages: {
+                    // total_customer_order: {
+                    //     required: "Total is required",
+                    //     digits: "Total is must numeric"
+                    // },
+                    customers_id: {
+                        required: "Customer is required"
+                    },
+                    "qty_line_customer_order[]":{
+                        required: "Qty is required",
+                        digits: "Qty is must numeric"
+                    },
+                    "price_line_customer_order[]":{
+                        required: "Price is required",
+                        digits: "Price is must numeric"
+                    }
+
+                },
+                // errorPlacement:function(error,element){
+                //     if(element.attr("name")=="products_id[]"){
+                //         $('#message_error').empty();error.appendTo('#message_error')
+                //     }else{
+                //         error.insertAfter(element)
+                //     }
+                // }
+
+            });
+
+        });
+    </script>
     <script>
         $(document).ready(function() {
 
@@ -206,7 +274,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-lg-3 col-sm-3 col-3">
-                                                            <select class="js-example-basic-single select2 form-control ProductName products_id" id="elementvente"  name="products_id[]" data-placeholder="Choisir un produit"  @error('products_id') is-invalid @enderror>
+                                                            <select class="js-example-basic-single select2 form-control ProductName products_id" id="elementvente"  name="products_id[]" data-placeholder="Choisir un produit"  @error('products_id[]') is-invalid @enderror>
                                                                 <option selected="true" disabled="true">Choisir Produit</option>
                                                                 @foreach ($products as $product)
                                                                     <option value="{{ $product->id }}" data-price_line_customer_order="{{ $product->price_sale }}">
@@ -220,18 +288,18 @@
                                             <td>
                                                 <div class="form-group row">
                                                     <div class="col-md-10">
-                                                        <input type="number" name="qty_line_customer_order[]"
+                                                        <input type="number" name="qty_line_customer_order[]" id="qty"
                                                             class="form-control qty_line_customer_order"
-                                                            @error('qty_line_customer_order') is-invalid @enderror>
+                                                            @error('qty_line_customer_order[]') is-invalid @enderror>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group row">
                                                     <div class="col-md-10">
-                                                        <input type="number" name="price_line_customer_order[]"
+                                                        <input type="number" name="price_line_customer_order[]" id="price"
                                                             class="form-control price_line_customer_order"
-                                                            @error('price_line_customer_order') is-invalid @enderror>
+                                                            @error('price_line_customer_order[]') is-invalid @enderror>
                                                     </div>
                                                 </div>
                                             </td>
@@ -241,7 +309,7 @@
                                                         <input type="number"
                                                             class="form-control subtotal_line_customer_order"
                                                             name="subtotal_line_customer_order[]"
-                                                            @error('subtotal_line_customer_order') is-invalid @enderror
+                                                            @error('subtotal_line_customer_order[]') is-invalid @enderror
                                                             readonly>
                                                     </div>
                                                 </div>
@@ -254,8 +322,13 @@
 
                 $('tbody').append(addline);
                 var newSelectId = 'select' + Date.now();
-            //select 2
-            $('#elementvente').attr('id', newSelectId).select2({tags: true});
+                //select 2
+                var i =1
+                $('#elementvente').attr('id', newSelectId).select2({
+                    tags: true
+                });
+                 $('#qty').attr('id', i++);
+                 $('#price').attr('id', i++);
             };
 
 
@@ -271,6 +344,8 @@
 
         });
     </script>
+
+
 
 
 @endsection

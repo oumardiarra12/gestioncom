@@ -1,13 +1,20 @@
 @extends('layouts.master')
 @section('title', 'Gestion Depense')
-
+@section('style')
+    <style>
+        label.error {
+            color: #dc3545;
+            font-size: 14px;
+        }
+    </style>
+@endsection
 @section('title_toolbar', 'Edit Depense')
 @section('subtitle_toolbar', 'Gestion des Depenses')
 @section('subtitle_toolbar', 'Gestion des Depenses')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('depenses.update', $expense->id) }}">
+            <form method="POST" action="{{ route('depenses.update', $expense->id) }}" id="editdepenseform">
                 @method('put')
                 @csrf
                 @if ($errors->any())
@@ -36,9 +43,9 @@
                             <label>Montant</label>
                             <div class="input-groupicon">
                                 <input type="text" name="amount" value={{$expense->amount}} @error('amount') is-invalid @enderror>
-                                <div class="addonset">
+                                {{-- <div class="addonset">
                                     <img src="assets/img/icons/dollar.svg" alt="img">
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -69,4 +76,36 @@
 
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+        $("#editdepenseform").validate({
+            rules: {
+                reason: "required",
+                amount: {
+                    required: true,
+                    digits: true
+                },
+                expense_types_id: {
+                    required: true,
+                    digits: true
+                },
+            },
+            messages: {
+                reason: {
+                    required: "reason is required"
+                },
+                amount: {
+                    required: "amount is required",
+                    digits: "amount is numeric",
+                },
+                expense_types_id: {
+                    required: "Type Expense is required",
+                    digits: "Type Expense is numeric",
+                },
+            }
+        });
+        });
+    </script>
 @endsection

@@ -3,10 +3,18 @@
 
 @section('title_toolbar', 'Nouveau Client')
 @section('subtitle_toolbar', 'Gestion des Clients')
+@section('style')
+<style>
+    label.error {
+         color: #dc3545;
+         font-size: 14px;
+    }
+</style>
+@endsection
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="POST"  action="{{ route('clients.store') }}" id="form">
+            <form method="POST"  action="{{ route('clients.store') }}" id="customerform">
                 @csrf
                 @if($errors->any())
                 <div class="alert alert-danger">
@@ -53,5 +61,37 @@
 
         </div>
     </div>
+@endsection
+@section('script')
+<script>
+$(document).ready(function() {
+            $("#customerform").validate({
+                rules: {
+                    firstname_customer: "required",
+                    lastname_customer: "required",
+                    tel_customer: "required",
+                    email_customer: "required",
+                    address_customer: "required",
+                },
+                messages:{
+                    firstname_customer:{
+                        required: "First name is required"
+                    },
+                    lastname_customer:{
+                        required: "Last name is required"
+                    },
+                    tel_customer:{
+                        required: "Phone is required"
+                    },
+                    email_customer:{
+                        required: "Email is required"
+                    },
+                    address_customer:{
+                        required: "Address is required"
+                    },
+                }
+            });
+        });
+</script>
 @endsection
 

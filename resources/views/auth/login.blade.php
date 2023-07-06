@@ -1,5 +1,12 @@
 @extends('layouts.auth')
-
+@section('style')
+<style>
+    label.error {
+         color: #dc3545;
+         font-size: 14px;
+    }
+</style>
+@endsection
 @section('content')
     <div class="login-wrapper">
         <div class="login-content">
@@ -55,9 +62,9 @@
                         <input type="submit" style="padding: 0px" class="btn btn-login" value="Se connecter"/>
                     </div>
                 </form>
-                <div class="signinform text-center">
-                    <h4>Don’t have an account? <a href="signup.html" class="hover-a">Sign Up</a></h4>
-                </div>
+                {{-- <div class="signinform text-center">
+                    <h4>Don’t have an account? <a href="#" class="hover-a">Se Connecte</a></h4>
+                </div> --}}
 
             </div>
         </div>
@@ -66,4 +73,34 @@
         </div>
     </div>
 @endsection
+{{-- @section('script')
+<script>
+    $(document).ready(function() {
+$("#kt_sign_in_form").validate({
+  rules: {
+
+    email: {
+          required:true,
+          email: true,
+      },
+      password: {
+          required:true,
+
+      },
+  },
+  messages:{
+
+      email:{
+          required: "Email is required",
+          email:"Email is Email"
+      },
+      password:{
+          required: "Password is required",
+      },
+  }
+});
+});
+</script>
+
+@endsection --}}
 
