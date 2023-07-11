@@ -41,12 +41,24 @@ class LivraisonController extends Controller
         $cates = Category::with('products')->get();
         return view('pages.livraison.create', compact('products', 'categories','categoryid'));
     }
+    public function researchProduct(Request $request){
+        $search = $request ->search;
+        $result = Product::where('name_product', 'LIKE', '%'. $search. '%')
+        ->orWhere('codebarre_product', 'like', '%' . $search . '%')->get();
+        $response = array();
+          foreach($result as $r){
+          $response[] = array("value"=>$r->id,"label"=>$r->name_product,'prix'=>$r->price_sale);
+        }
+        echo json_encode($response);
+        exit;
+    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreDeliveryRequest $request)
     {
+        dd($request->post());
         $delivery = new Delivery();
         // $delivery->customer_orders_id= $customerorder->id;
         $delivery->total_deliveries = $request->total_deliveries;

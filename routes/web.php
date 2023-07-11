@@ -137,6 +137,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
                 Route::post('storeproduit','storeproduit')->name('storeproduit');
                 Route::get('pdftable','pdftableproduit')->name('pdftable');
                 Route::get('exportproduit','exportproduit')->name('exportproduit');
+               
             });
         });
     });
@@ -708,6 +709,7 @@ Route::middleware(['auth', 'user-access:gerant'])->group(function () {
                 Route::delete('/delete/{id}', 'destroy')->name('delete');
                 Route::get('pdftable','pdftablelivraison')->name('pdftable');
                 Route::get('livraisonpdf/{id}','pdflivraison')->name('livraisonpdf');
+                Route::get('researchproduct','researchProduct')->name('researchproduct');
             });
         });
     });
